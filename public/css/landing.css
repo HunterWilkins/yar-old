@@ -1,0 +1,165 @@
+aside {
+    display: none;
+}
+
+nav {
+    display: none;
+}
+
+main {
+    top:0;
+    right:0;
+}
+
+section {
+    position: fixed;
+    top: 20px;
+    bottom: 20px;
+    top: 50px;
+
+    text-align:center;
+    width: 100%;
+}
+
+#logo {
+    padding: 25px;
+    background: var(--layer3);
+    text-align:center;
+    border-top: var(--layer4) solid 5px;
+    border-bottom: var(--layer4) solid 5px;
+    box-shadow: 0 5px 5px black;
+}
+
+#logo h1 {
+    font-family: serif;
+    font-size: 50px;
+    color: var(--highlight)
+}
+
+article {
+    position: relative;
+    padding: 15px;
+    max-width: 500px;
+    margin: 5px auto;
+    background: var(--layer2);
+    border-radius: 15px;
+}
+
+header, footer {
+    position:fixed;
+    background: var(--layer4);
+    height: 20px;
+    width: 100%;
+}
+
+header {
+    top: 0;
+}
+
+footer {
+    bottom:0;
+}
+
+#account-boxes {
+    max-width: 500px;
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#signin-box form {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: -100%;
+    z-index: 0;
+    
+    right:0;
+    transition: .15s;
+}
+
+#signin-box form input {
+    text-align:center;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    background: var(--layer3);
+    color:inherit;
+    position: relative;
+    border: var(--layer4) solid 2px;
+    border-top: none;
+    border-bottom: none;
+}
+
+#signin-box form input[type=password] {
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom: var(--layer4) solid 2px;
+}
+
+#signin-box form input::placeholder {
+    font-family: 'Courier New', Courier, monospace;
+    color: rgb(201, 147, 198);
+}
+
+#signin-box form button {
+    padding: 5px 15px;
+    background: var(--layer3);
+    border-radius: 50px;
+    border: none;
+}
+
+#signin-box, #signup {
+    z-index: 10;
+    cursor:pointer;
+    position: absolute;
+    background: var(--layer3);
+    width: 200px;
+    border-radius: 50px;
+    border: var(--layer0) solid 2px;
+    border-color: var(--layer3);
+    padding: 10px;
+    font-size: 18px;
+    transition: .15s;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+
+}
+
+#signin-box:hover, #signup:hover {
+    border: var(--highlight) solid 2px;
+    color: var(--highlight);
+}
+
+#signup {
+    left: 0;
+}
+
+#signin-box, #signin form {
+    top: 0px;
+    right: 0px;
+}
+
+#signin-box {
+    z-index: 10;
+}
+
+@media only screen and (max-width: 500px) {
+
+    #account-boxes {
+        height: 250px;
+    }
+
+    #signin-box, #signup {
+        border-radius: 0;
+    }
+
+    #signin-box {
+        top: 80px;
+        border-bottom-left-radius: 15px;
+        border-top-left-radius: 15px;
+    }
+
+    #signup {
+        border-bottom-right-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+}

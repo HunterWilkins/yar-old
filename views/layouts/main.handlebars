@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+<body>
+    <nav>
+        <p>Website Logo</p>
+        {{#if session.userId}}
+        <button id = "logout">Log Out</button>
+        {{/if}}
+    </nav>
+    <main>
+        <aside>
+            {{#if session.userId}}
+            <h2>{{session.username}}</h2>
+            <a class = "navbuttons" href="/settings">Settings</a>
+            {{else}}
+            <input name = "username" type="text" placeholder = "Username">
+            <input name = "password" type="password" placeholder = "Password">
+            <button id = "signin">Sign In</button> or
+            <button id = "signup">Sign Up</button>
+            {{/if}}
+        </aside>
+        
+        {{{body}}}
+    
+    </main>
+    
+</body>
+</html>

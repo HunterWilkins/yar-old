@@ -1,0 +1,117 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --navHeight: 35px;
+    --layer0: rgb(31, 19, 31);
+    --layer1: rgb(51, 29, 36);
+    --layer2: rgb(65, 30, 44);
+    --layer3: rgb(94, 33, 61);
+    --layer4: rgb(156, 43, 58);
+    --highlight: rgb(255, 234, 113);
+}
+
+
+h1 {
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 26px;
+}
+
+h3 {
+    font-size: 22px;
+}
+
+main {
+    background: linear-gradient(45deg, var(--layer0), var(--layer2));
+    color: white;
+    font-family: sans-serif;
+}
+
+button {
+    cursor: pointer;
+    color: inherit;
+}
+
+nav {
+    position: fixed;
+    padding: 5px;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navHeight);
+    background: var(--layer1);
+}
+
+nav > * {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#logout {
+    position: absolute;
+    right: 5px;
+}
+
+aside {
+    width: 150px;
+    padding: 5px;
+    position: fixed;
+    top: var(--navHeight);
+    bottom: 0;
+    right: 0;
+    text-align:center;
+    background: var(--layer2);
+}
+
+aside input {
+    border: none;
+    padding: 5px;
+    background: var(--layer0);
+    color: white;
+    max-width: 100%;
+    margin-bottom: 5px;
+}
+
+.navbuttons {
+    font-size: 14px;
+    background: var(--layer3);
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0 5px 0;
+}
+
+.navbuttons:hover {
+    background: var(--layer4);
+    text-shadow: 0 2px black;
+}
+
+#signin, #signup, #logout {
+    border: none;
+    background: var(--layer3);
+    padding: 4px 6px;
+}
+
+#signin {
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+}
+
+#signup {
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+main {
+    position: fixed;
+    top: var(--navHeight);
+    bottom: 0;
+    width: 100%;
+}
