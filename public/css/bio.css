@@ -1,0 +1,13 @@
+nav, aside {
+    display: none;
+}
+
+main {
+    top: 0;
+    right: 0;
+}
+
+label[for="role"], input[name="role"], input[name="mixed-race"] {
+    display: none;
+}
+

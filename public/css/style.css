@@ -12,6 +12,11 @@
     --highlight: rgb(255, 234, 113);
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 
 h1 {
     font-size: 30px;

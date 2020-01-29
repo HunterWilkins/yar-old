@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="/css/bio.css">
+
+<div id="biology">
+    <input type="text" placeholder = "Name">
+    <input type="text" placeholder = "Username">
+    <input type="password" placeholder = "Password">
+    <input type="radio" name = "gender" value = "male">Male
+    <input type="radio" name = "gender" value = "female">Female
+
+    <select name="race">
+        <option disabled selected>Race</option>
+        <option value="white">White</option>
+        <option value="black">Black</option>
+        <option value="latino">Latino</option>
+        <option value="asian">Asian</option>
+        <option value="mixed">Mixed (specify below)</option>
+    </select>
+
+    <input type="text" name = "mixed-race" placeholder = "Mother's Race / Father's Race">
+</div>
+<br>
+<div id="personality">
+    <select name="religion">
+        <option value="christianity">Christianity</option>
+        <option value="judaism">Judaism</option>
+        <option value="islam">Islam</option>
+        <option value="Buddhism">Buddhism</option>
+        <option value="hinduism">Hinduism</option>
+        <option value="agnostic">Agnosticism</option>
+        <option value="atheism">Atheism</option>
+    </select>
+    <br>
+    Are you Pro-Life?
+    <br>
+    <input type="radio" name="prolife" value = "true">Yes
+    <input type="radio" name="prolife" value = "false">No
+    <br>
+    Politics
+    <br>
+    <input type="radio" name="politics" value = "right">Right Wing
+    <input type="radio" name="politics" value = "left">Left Wing
+    <input type="radio" name="politics" value = "moderate">Moderate
+    <br>
+
+    <label for="role">Preferred Gender Role</label>
+    <input type="range" name="role" max=4 min=0>
+    <section id = "role-description">
+
+    </section>
+
+    
+</div>
+
+<script src="/js/bio.js"></script>
+
