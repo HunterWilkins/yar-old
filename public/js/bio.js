@@ -2,11 +2,11 @@ $(document).ready(function(){
 
     let genderRoles = {
         male: [
-            "Submissive little boiii",
-            "Less Submissive little boii",
-            "Moderate boii",
-            "Less Moderate Man",
-            "Big boii"
+            "Submissive",
+            "Moderately Submissive",
+            "Moderate",
+            "Moderately Dominant",
+            "Dominant"
         ],
 
         female: [
@@ -31,25 +31,144 @@ $(document).ready(function(){
         "TV"
     ]
 
+    let questions = [
+        {
+            q: "Precisely how many children do you want to have?",
+            a: [
+                "None (0)",
+                "A few (1-3)",
+                "A lot! (3-5)",
+                "SOOOO MANY! (5+)",
+                "I already have kids."
+            ],
+            name: "babies",
+            type: "radio"
+        },
+        {
+            q: "If you wanted to take time off from your routine, where would you go?",
+            a: [
+                "Coffee Shop",
+                "Park",
+                "Movie Theater",
+                "Concert",
+                "Art Gallery",
+                "Church",
+                "Mall",
+                "Trick Question: I'd stay home."
+            ],
+            name: "leisure",
+            type: "radio"
+        },
+        {
+            q: "What's your current top priority?",
+            a: [
+                "Wealth",
+                "Fame",
+                "Physical Strength",
+                "Intellect",
+                "Family",
+                "Career Fulfillment",
+                "Religion"
+            ],
+            name: "priority",
+            type: "radio"
+        },
+        {
+            q: "Alright: What're your other priorities?",
+            a: [
+                "Self-Improvement",
+                "Self-Expression",
+                "Having a Good Time",
+                "General Fulfillment",
+                "Smarts",
+                "Health",
+                "My Family",
+                "My Religion",
+                "Money",
+                "My Dreams",
+                "Comfort"
+            ],
+            name: "priorities",
+            type: "checkbox"
+        },
+        {
+            q: "Is it better to be non-confrontational in a minor argument?",
+            a: [
+                "No. Communication is important. Nothing will get fixed if you're not willing to confront the issue.",
+                "Depends...I want to keep things civil, but a disagreement is a disagreement.",
+                "Absolutely. The most important thing is to enjoy each other's company. Real friends don't have heated debates."
+            ],
+            name: "confrontation",
+            type: "radio"
+        },
+        {
+            q: "What would it take for you to terminate a romantic relationship? You can still be friends after the fact.",
+            a: [
+                "Physical Unattractiveness",
+                "Severe Religious Disagreements",
+                "Severe Political Disagreements",
+                "Clinginess",
+                "Lack of good hygiene",
+                "The other's descent into poor health",
+                "The other's Apathy",
+                "The other's financial dependence",
+                "Long Distance Relationship",
+                "A lack of excitement",
+                "A better romantic prospect",
+                "Sudden injury to me / the other"
+            ],
+            name: "termination",
+            type: "checkbox"
+        },
+        {
+            q: "If I had to capitalize on my best visual feature, I would wear...",
+            a: [
+                "A V-Neck",
+                "A Tank Top",
+                "A Crop Top",
+                "Tight/Short Pants",
+                "A Flannel Overshirt w/ White Undershirt",
+                "Nothing (not recommended)"
+            ],
+            name: "sexy",
+            type: "radio"
+        }
+    ];
+
+    questions.forEach(item=>{
+
+        $("#question-box").append(
+            `
+            <p>${item.q}</p>
+            <hr>
+            `
+        );
+
+        item.a.forEach(answer => {
+            $("#question-box").append(
+                `
+                <input type="${item.type}" name="${item.name}" id = "${answer}" value = "${answer}">
+                <label for="${answer}" class = "${item.type === "radio" ? "radio-button": "check-button"}">
+                ${answer}
+                </label>
+                `
+            )
+        });
+
+        $("#question-box").append("<br><br><hr>");
+    })
+
     interests.forEach(item => {
         $("#interests").append(
             `
             <input type="checkbox" name="interests" id = "${item}" value = "${item}">
             <label class = "check-button" for = "${item}">${item}</label>
-            <br>
-
             `
         )
-    })
+    });
 
     // Gender Role Selector Functionality
-    $("input[name=gender]").on("change", function() {
-        if ($("input[name=role]").css("display") === "none", $("label[for=role]").css("display") === "none") {
-            toggleDisplay(["input[name=role]", "label[for=role]", "#role-description"], "block");
-        }
-        $("input[name=role]").val(2);
-        $("#role-description").text(genderRoles[$(this).val()][2]);
-    });
+    
     // =/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/
 
     $("select[name=race]").on("change", function() {
@@ -62,12 +181,14 @@ $(document).ready(function(){
     });
 
     $("input[name=role]").on("change", function() {
-        $("#role-description").text(genderRoles[$("input[name=gender]:checked").val()][$(this).val()])
+        $("#role-description").text(genderRoles.male[$(this).val()])
     });
     
     $("#autofill").on("click", function() {
         let userInfo = {
             interests : [],
+            priorities: [],
+            termination: []
         };
         $("main div input, select").each(function(index) {
             if ($(this).attr("type") === "radio") {
@@ -79,7 +200,7 @@ $(document).ready(function(){
             else if ($(this).attr("type") === "checkbox") {
                 if ($(this).is(":checked")) {
                     console.log($(this).val());
-                    userInfo.interests.push($(this).val());    
+                    userInfo[$(this).attr("name")].push($(this).val());    
                 }
             }
 

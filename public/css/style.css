@@ -7,14 +7,33 @@
     --layer0: rgb(31, 19, 31);
     --layer1: rgb(51, 29, 40);
     --layer2: rgb(65, 30, 44);
-    --layer3: rgb(94, 33, 61);
+    --layer3: rgb(94, 33, 51);
     --layer4: rgb(156, 43, 58);
     --highlight: rgb(255, 234, 113);
 }
 
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--layer0);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--highlight);
+}
+
+
 a {
     text-decoration: none;
     color: inherit;
+}
+
+hr {
+    border:none;
+    border-bottom: 2px solid var(--layer4);
 }
 
 
@@ -48,7 +67,9 @@ nav {
     left: 0;
     right: 0;
     height: var(--navHeight);
-    background: var(--layer1);
+    background: var(--layer3);
+    font-size: 24px;
+    color: var(--highlight);
 }
 
 nav > * {

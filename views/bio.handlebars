@@ -1,84 +1,108 @@
 <link rel="stylesheet" href="/css/bio.css">
 
-<div id="biology">
-    <h2>Biology</h2>
+<div id="leftmost">
+        <div class = "biobox" id="biology">
+            <h2>Biology</h2>
+            <hr>
+            <input type="text" name = "name" placeholder = "Name">
+            <input type="text" name = "username" placeholder = "Username">
+            <input type="password" name = "password" placeholder = "Password">
+            <input name = "age" type="number" placeholder = "Age" min = "18" max = "70">
+
+            <br>
+            <input type="radio" id = "male" name = "gender" value = "male">
+            <label class = "radio-button" for="male">Male</label>
+
+            <input type="radio" id = "female" name = "gender" value = "female">
+            <label class = "radio-button" for="female">Female</label>
+            <br>
+
+            <select name="race">
+                <option disabled selected>Race</option>
+                <option value="white">White</option>
+                <option value="black">Black</option>
+                <option value="latino">Latino</option>
+                <option value="asian">Asian</option>
+                <option value="indian">Indian</option>
+                <option value="native american">Native American</option>
+                {{!-- <option value="mixed">Mixed (specify below)</option> --}}
+            </select>
+
+            <input type="text" name = "height" placeholder = "Height x'y&#8221">
+            <input type="number" name = "weight" placeholder = "Weight lbs" min = "90" max = "400">
+
+            {{!-- <input type="text" name = "mixed-race" placeholder = "Mother's Race / Father's Race"> --}}
+        </div>
+
+        <div class = "biobox" id="personality">
+            <h2>Personality</h2>
+            <hr>
+
+            <select name="religion">
+                <option disabled selected>Religion</option>
+                <option value="christianity">Christianity</option>
+                <option value="judaism">Judaism</option>
+                <option value="islam">Islam</option>
+                <option value="Buddhism">Buddhism</option>
+                <option value="hinduism">Hinduism</option>
+                <option value="agnostic">Agnosticism</option>
+                <option value="atheism">Atheism</option>
+            </select>
+            
+            <input type="radio" name = "outgoing" id = "introvert" value = "introvert">
+            <label for = "introvert" class = "radio-button">Introvert</label>
+            <input type="radio" name = "outgoing" id = "extrovert" value = "extrovert">
+            <label for="extrovert" class = "radio-button">Extrovert</label>
+            <br>
+            Are you Pro-Life?
+            <br>
+            <input type="radio" name="prolife" id = "life" value = "true">
+            <label class = "radio-button" for="life">Yes</label>
+            <input type="radio" name="prolife" id = "abortion" value = "false">
+            <label class = "radio-button" for="abortion">No</label>
+            <br>
+            Politics
+            <br>
+            <input type="radio" name="politics" id = "right" value = "right">
+            <label for="right" class = "radio-button">Right Wing</label>
+            <input type="radio" name="politics" id = "left" value = "left">
+            <label for="left" class = "radio-button">Left Wing</label>
+            <input type="radio" name="politics" id = "moderate" value = "moderate">
+            <label for="moderate" class = "radio-button">Moderate</label>
+            
+            <br>
+
+            <label for="role">Preferred Gender Role</label>
+            <input type="range" name="role" max=4 min=0>
+            <section id = "role-description">
+                Moderate
+            </section>
+        </div>
+            
+     <div class = "biobox" id="profile-image">
+        <h2>Photos</h2>
+        <hr>
+        <img src="/images/anon-image.jpg" alt="Your image here">
+        <br><br>
+        <p>Click icon to set your image link</p>
+    </div>
+
+    <div class = "biobox" id="interests">
+        <h2>Interests</h2>
+        <hr>
+    </div>
+
+</div>
+
+<div class="biobox" id="questions">
+    <h2>Questions</h2>
     <hr>
-    <input type="text" name = "name" placeholder = "Name">
-    <input type="text" name = "username" placeholder = "Username">
-    <input type="password" name = "password" placeholder = "Password">
-    <br>
-    <input type="radio" id = "male" name = "gender" value = "male">
-    <label class = "radio-button" for="male">Male</label>
+    <div id="question-box">
 
-    <input type="radio" id = "female" name = "gender" value = "female">
-    <label class = "radio-button" for="female">Female</label>
-
-    <br>
-
-    <select name="race">
-        <option disabled selected>Race</option>
-        <option value="white">White</option>
-        <option value="black">Black</option>
-        <option value="latino">Latino</option>
-        <option value="asian">Asian</option>
-        <option value="mixed">Mixed (specify below)</option>
-    </select>
-
-    <input type="text" name = "mixed-race" placeholder = "Mother's Race / Father's Race">
-</div>
-<br>
-<div id="personality">
-    <h2>Personality</h2>
-    <hr>
-
-    <select name="religion">
-        <option value="christianity">Christianity</option>
-        <option value="judaism">Judaism</option>
-        <option value="islam">Islam</option>
-        <option value="Buddhism">Buddhism</option>
-        <option value="hinduism">Hinduism</option>
-        <option value="agnostic">Agnosticism</option>
-        <option value="atheism">Atheism</option>
-    </select>
-    <br>
-    <input type="radio" name = "outgoing" id = "introvert" value = "introvert">
-    <label for = "introvert" class = "radio-button">Introvert</label>
-    <input type="radio" name = "outgoing" id = "extrovert" value = "extrovert">
-    <label for="extrovert" class = "radio-button">Extrovert</label>
-    <br>
-    Are you Pro-Life?
-    <br>
-    <input type="radio" name="prolife" id = "life" value = "true">
-    <label class = "radio-button" for="life">Yes</label>
-    <input type="radio" name="prolife" id = "abortion" value = "false">
-    <label class = "radio-button" for="abortion">No</label>
-    <br>
-    Politics
-    <br>
-    <input type="radio" name="politics" id = "right" value = "right">
-    <label for="right" class = "radio-button">Right Wing</label>
-    <input type="radio" name="politics" id = "left" value = "left">
-    <label for="left" class = "radio-button">Left Wing</label>
-    <input type="radio" name="politics" id = "moderate" value = "moderate">
-    <label for="moderate" class = "radio-button">Moderate</label>
-    
-    <br>
-
-    <label for="role">Preferred Gender Role</label>
-    <input type="range" name="role" max=4 min=0>
-    <section id = "role-description">
-
-    </section>
-</div>
-<br>
-<div id="interests">
-    <input type="text" placeholder = "Occupation">
-    <br>
-    Interests
-    <br>
+    </div>
+    <button id = "autofill">Test Autofill</button>
 </div>
 
-<button id = "autofill">Test Autofill</button>
 
 <script src="/js/bio.js"></script>
 

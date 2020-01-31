@@ -1,32 +1,143 @@
-nav, aside {
+aside {
     display: none;
 }
 
 main {
     padding: 10px;
-    overflow-y:scroll;
-    top: 0;
+    overflow-y:auto;
     right: 0;
 }
-
-
-#biology, #personality {
+ 
+.biobox {
     padding: 10px;
     width: 350px;
-    background: var(--layer0);
+    background: var(--layer2);
+    transition: .15s;
+    box-shadow: -4px 4px 10px rgb(12, 10, 20);
 }
 
-#biology {
-    width: 250px;
+#leftmost {
+    position: absolute;
+    top:10px;
+    width: 560px;
+    bottom: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-input[type = text], input[type=password] {
+#biology, #personality, #interests {
+    display: inline-block;
+}
+
+#biology, #personality {
+    position: absolute;
+    top: 0px;
+    width: 230px;
+    height: 300px;
+}
+
+#personality {
+    left: 240px;
+    width: 320px;
+    height: initial;
+}
+
+#personality select {
+    width: 33%;
+}
+
+#biology input[type=text], #biology input[type=password], #biology select{
+    width: 100%;
+    margin: 5px 0;
+}
+
+#biology input[name=password] {
+    width: 50%;
+}
+
+#biology input[name=age] {
+    width: 40%;
+}
+
+#biology input[name=height], #biology input[name=weight] {
+    display: inline-block;
+    margin: 5px auto;
+    width: 48%;
+}
+
+#profile-image {
+    position: absolute;
+    text-align:center;
+    top: 310px;
+    width: 100%;
+    background: var(--layer2);
+    display: inline-block;
+}
+
+#profile-image img {
+    position: relative;
+   
+    width: 100px;
+    border-radius: 50%;
+}
+
+#profile-image input {
+    display: inline-block;
+    position: absolute;
+    left: 120px;
+    right: 10px;
+}
+
+#interests {
+    position: absolute;
+    left: 0;
+    top: 480px;
+    width: 100%;
+}
+
+#questions {
+    position: absolute;
+    right: 10px;
+    bottom: 90px;
+    top: 10px;
+    left: 600px;
+    width: initial;
+}
+
+#question-box {
+    position: absolute;
+    top: 60px;
+    bottom: 10px;
+    overflow-y: scroll;
+}
+
+#autofill {
+    position: absolute;
+    top: 101%;
+    right: 0;
+    padding: 20px 10px;
+    border: var(--layer0) solid 2px;
+    border-radius: 25px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 350px;
+    font-size: 26px;
+    color: white;
+    background: var(--layer3);
+}
+
+#interests > input, #interests > label {
+    display: inline-block;
+}
+
+input[type = text], input[type=password], input[type=number] {
     font-size: 16px;
-    background: var(--layer1);
+    background: var(--layer0);
     color: var(--highlight);
     padding: 5px 10px;
     margin: 2px;
     border: none;
+    border-bottom: 1px solid white;
 }
 
 input[type=range] {
@@ -44,6 +155,8 @@ select {
 }
 
 #role-description {
+    width: 100%;
+    text-align:center;
     background: var(--layer0);
     padding: 15px;
 }
@@ -72,17 +185,97 @@ input[type=radio], input[type=checkbox] {
 }
 
 input[type=radio]:checked + .radio-button {
-    background: var(--layer3);
-    border: 1.5px solid white;
+    background: var(--layer4);
+    /* border: 1.5px solid white; */
 }
 
 input[type=checkbox]:checked + .check-button {
-    padding-left: 50px;
     background: var(--layer4);
 }
 
-/*Hidden Elements*/
+input[name=mixed-race] {
+    margin: 5px auto;
+}
+/* Hidden Elements
 label[for="role"], input[name="role"], input[name="mixed-race"], #role-description {
     display: none;
+} */
+
+@media only screen and (max-width: 894px) {
+    #leftmost {
+        width: 300px;
+    }
+
+    #biology, #personality, #interests, #profile-image {
+        width: 100%;
+        margin-bottom: 10px;
+        position: relative;
+        top: initial;
+        left: initial;
+    }
+
+    #personality select {
+        width: 100%;
+    }
+
+    #questions {
+        left: 320px;
+    }
+}
+
+@media only screen and (max-width: 674px) {
+    #leftmost {
+        width: 47%;
+    }
+
+    #biology, #personality, #interests, #profile-image {
+        width: 100%;
+        margin-bottom: 10px;
+        position: relative;
+        height: initial;
+        top: initial;
+        left: initial;
+    }
+
+    #questions {
+        left: initial;
+        width: 47%;
+    }
+    
+    #autofill {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    select {
+        padding: 10px;
+        width: 100%;
+    }
+
+    #leftmost, #questions {
+        font-size: 18px;
+        position: relative;
+        top: initial;
+        bottom: initial;
+        right: initial;
+        width: 100%;
+        display: inline-block;
+        height: initial;
+    }
+
+    #question-box {
+        position: initial;
+        top: initial;
+        bottom: initial;
+        overflow-y: initial;
+    }
+
+    #autofill {
+        position: initial;
+        top: initial;
+        right: initial;
+        border-radius: 0;
+    }
 }
 
