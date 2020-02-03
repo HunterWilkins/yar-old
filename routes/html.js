@@ -1,6 +1,5 @@
 module.exports = function(app) {
     app.get("/", function(req, res) {
-        console.log(req.session.userId);
         res.render("landing", {session: req.session});
     });
 
@@ -9,12 +8,10 @@ module.exports = function(app) {
     });
 
     app.get("/dash", function(req, res) {
-        console.log(req.session.userId);
         res.render("dashboard", {session: req.session});
     })
 
     app.get("*", function(req, res) {
-        console.log(req.session.userId);
         res.render("landing", {session: req.session});
     });
 }

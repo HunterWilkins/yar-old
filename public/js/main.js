@@ -11,6 +11,7 @@ $(document).ready(function(){
     });
 
     $("#signin").on("click", function(){
+        event.preventDefault();
         $.ajax({
             type: "POST",
             url: "/api/signin",
@@ -19,7 +20,7 @@ $(document).ready(function(){
                 password: $("input[name = password]").val()
             },
             success: function() {
-                window.location.reload();
+                window.location.replace("/dash");
             },
             error: function(data) {
                 alert("No User Found. Try again.");

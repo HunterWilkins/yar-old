@@ -9,13 +9,21 @@ $(document).ready(function() {
     });
 
     $("#signin-box form button").on("click", function() {
+        event.preventDefault();
         $.ajax({
             url: "/api/signin",
             method: "POST",
             data: {
                 username: $("input[placeholder='Username']").val(),
                 password: $("input[placeholder='Password']").val(),
+            },
+            success: function() {
+                window.location.replace("/dash");
+            },
+            error: function() {
+                alert("No User Found! Try again or Sign Up.")
             }
+            
         })
     })
 
