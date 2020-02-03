@@ -34,15 +34,11 @@ $(document).ready(function(){
     let questions = [
         {
             q: "Precisely how many children do you want to have?",
-            a: [
-                "None (0)",
-                "A few (1-3)",
-                "A lot! (3-5)",
-                "SOOOO MANY! (5+)",
-                "I already have kids."
-            ],
+            a: [0],
+            min: 0,
+            max: 11,
             name: "babies",
-            type: "radio"
+            type: "range"
         },
         {
             q: "If you wanted to take time off from your routine, where would you go?",
@@ -144,19 +140,32 @@ $(document).ready(function(){
             `
         );
 
-        item.a.forEach(answer => {
+        if (item.type === "range") {
             $("#question-box").append(
                 `
-                <input type="${item.type}" name="${item.name}" id = "${answer}" value = "${answer}">
-                <label for="${answer}" class = "${item.type === "radio" ? "radio-button": "check-button"}">
-                ${answer}
-                </label>
+                <input type="${item.type}" name="${item.name}" id = "babies" step = "1" min = "${item.min}" max = "${item.max}" value = "0">
+                <p id = "babies-desc">None</p>
                 `
             )
-        });
+        }
+
+        else {
+            item.a.forEach(answer => {
+            
+                $("#question-box").append(
+                    `
+                    <input type="${item.type}" name="${item.name}" id = "${answer}" value = "${answer}">
+                    <label for="${answer}" class = "${item.type === "radio" ? "radio-button": "check-button"}">
+                    ${answer}
+                    </label>
+                    `
+                )    
+            });      
+        }
+
 
         $("#question-box").append("<br><br><hr>");
-    })
+    });
 
     interests.forEach(item => {
         $("#interests").append(
@@ -180,7 +189,7 @@ $(document).ready(function(){
         }
     });
 
-    $("input[name=role]").on("change", function() {
+    $("input[name=role]").on("input", function() {
         $("#role-description").text(genderRoles.male[$(this).val()])
     });
     
@@ -192,7 +201,11 @@ $(document).ready(function(){
         };
         $("main div input, select").each(function(index) {
             if ($(this).attr("type") === "radio") {
-                if ($(this).is(":checked")) {
+                if ($(this).attr("name") === "gender") {
+                    userInfo.isMale = $(this).val() === "male" ? true : false;
+                }
+
+                else if ($(this).is(":checked")) {
                     userInfo[$(this).attr("name")]= $(this).val();
                 }
             }
@@ -205,11 +218,39 @@ $(document).ready(function(){
             }
 
             else if ($(this).val() !== null && $(this).val().length >= 1) {
-                userInfo[$(this).attr("name")]= $(this).val();
+                userInfo[$(this).attr("name")]= $(this).val(); 
             }
-        });  
+        });
+
+        $.ajax({
+            url: "/api/signup",
+            method: "POST",
+            data: userInfo,
+            success: function(data) {
+                
+            }
+        })
         
         console.log(userInfo);
+    });
+
+    $("#question-box").on("input", "#babies", function() {
+        let desc;
+        switch($(this).val()) {
+            case "0":
+                desc = "None."
+                break;
+            
+            case "11": 
+                desc = "SOOOO MANY!!! (10+)";
+                break;
+                
+            default: 
+                desc = $(this).val();
+                break;
+        }
+
+        $("#question-box #babies-desc").text(desc);
     });
 
     function toggleDisplay(elements, option) {

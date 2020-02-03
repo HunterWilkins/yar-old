@@ -19,11 +19,9 @@ module.exports = function(app) {
         let id = Date.now().toString() + randomAlpha + (Math.floor(Math.random()*20000)).toString();
         console.log(id);
 
-        db.User.create({
-            username: req.body.username,
-            password: req.body.password,
-            id: id
-        }).then(function(dbUser) {
+        req.body.id = id;
+
+        db.User.create(req.body).then(function(dbUser) {
             console.log("Successfully Added");
             req.session.userId = dbUser.id;
             req.session.username = dbUser.username;

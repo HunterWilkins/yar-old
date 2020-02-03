@@ -5,7 +5,7 @@ const MongoStore = require("connect-mongo")(session);
 const PORT = process.env.PORT || 3000;
 
 const app = express();
-let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/DATABASE";
+let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/yar";
 
 app.use(express.static("public"));
 

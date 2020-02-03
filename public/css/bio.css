@@ -82,10 +82,7 @@ main {
 }
 
 #profile-image input {
-    display: inline-block;
-    position: absolute;
-    left: 120px;
-    right: 10px;
+    width: 90%;
 }
 
 #interests {
@@ -186,11 +183,13 @@ input[type=radio], input[type=checkbox] {
 
 input[type=radio]:checked + .radio-button {
     background: var(--layer4);
+    color: white;
     /* border: 1.5px solid white; */
 }
 
 input[type=checkbox]:checked + .check-button {
     background: var(--layer4);
+    color: white;
 }
 
 input[name=mixed-race] {
@@ -224,33 +223,30 @@ label[for="role"], input[name="role"], input[name="mixed-race"], #role-descripti
 }
 
 @media only screen and (max-width: 674px) {
-    #leftmost {
-        width: 47%;
-    }
-
-    #biology, #personality, #interests, #profile-image {
-        width: 100%;
-        margin-bottom: 10px;
-        position: relative;
-        height: initial;
-        top: initial;
-        left: initial;
-    }
-
-    #questions {
-        left: initial;
-        width: 47%;
-    }
-    
-    #autofill {
-        width: 100%;
-    }
-}
-
-@media only screen and (max-width: 400px) {
     select {
         padding: 10px;
         width: 100%;
+    }
+    #biology, #personality, #interests, #profile-image {
+        margin-bottom: 30px;
+    }
+
+    #biology {
+        height: initial;
+        text-align: center;
+    }
+
+    #biology input[type=text] {
+        width: 47%;
+    }
+
+    #autofill {
+        width: 100%;
+        position: initial;
+        left: initial;
+        right: initial;
+        top: initial;
+        bottom: initial;
     }
 
     #leftmost, #questions {
@@ -264,7 +260,7 @@ label[for="role"], input[name="role"], input[name="mixed-race"], #role-descripti
         height: initial;
     }
 
-    #question-box {
+    #question-box, #questions {
         position: initial;
         top: initial;
         bottom: initial;
@@ -277,5 +273,9 @@ label[for="role"], input[name="role"], input[name="mixed-race"], #role-descripti
         right: initial;
         border-radius: 0;
     }
+}
+
+@media only screen and (max-width: 400px) {
+    
 }
 
