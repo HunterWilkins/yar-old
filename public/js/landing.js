@@ -14,8 +14,8 @@ $(document).ready(function() {
             url: "/api/signin",
             method: "POST",
             data: {
-                username: $("input[placeholder='Username']").val(),
-                password: $("input[placeholder='Password']").val(),
+                username: $("#landing-user").val(),
+                password: $("#landing-password").val(),
             },
             success: function() {
                 window.location.replace("/dash");

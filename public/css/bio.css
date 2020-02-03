@@ -108,6 +108,13 @@ main {
     overflow-y: scroll;
 }
 
+#question-box input[type=range], #babies-desc {
+    display:block;
+    margin: 0 auto;
+    width: 90%;
+    text-align:center;
+}
+
 #autofill {
     position: absolute;
     top: 101%;

@@ -202,7 +202,8 @@ $(document).ready(function(){
         $("main div input, select").each(function(index) {
             if ($(this).attr("type") === "radio") {
                 if ($(this).attr("name") === "gender") {
-                    userInfo.isMale = $(this).val() === "male" ? true : false;
+                    console.log($(this).val());
+                    userInfo.isMale = $(this).val() === "male" ? 0 : 1;
                 }
 
                 else if ($(this).is(":checked")) {
@@ -227,7 +228,7 @@ $(document).ready(function(){
             method: "POST",
             data: userInfo,
             success: function(data) {
-                
+                window.location.replace("/dash")
             }
         })
         

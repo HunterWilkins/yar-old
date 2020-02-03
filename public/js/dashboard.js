@@ -1,3 +1,8 @@
 $(document).ready(function() {
-    console.log("Ready!");
+    
+    $.getJSON("/api/users/all", function(data) {
+        console.log("Working...");
+        console.log(data);
+    })
+
 })

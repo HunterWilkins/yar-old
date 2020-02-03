@@ -2,8 +2,16 @@ let db = require("../models");
 
 module.exports = function(app) {
     app.get("/api/users/all", function(req, res) {
-        db.User.find({}).then(function(dbUser) {
-            res.json(dbUser);
+        db.User.findOne({
+            id: req.session.userId
+        }).then(function(dbUser) {
+            console.log(dbUser);
+            db.User.find({
+                isMale: !dbUser.isMale
+            }).then(function(dbResults) {
+                res.json(dbResults);
+            })
+            
         }).catch(err => console.log(err));
     });
 
