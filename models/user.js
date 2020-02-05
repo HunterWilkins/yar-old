@@ -20,8 +20,8 @@ let UserSchema = new Schema ({
         type: Number
     },
 
-    isMale: {
-        type: Boolean,
+    gender: {
+        type: String,
     },
 
     race: {

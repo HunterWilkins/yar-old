@@ -22,7 +22,7 @@ $(document).ready(function(){
         "Sports",
         "Gaming",
         "Art",
-        "Musician",
+        "Music",
         "Coding",
         "Writing",
         "Reading",
@@ -192,6 +192,10 @@ $(document).ready(function(){
     $("input[name=role]").on("input", function() {
         $("#role-description").text(genderRoles.male[$(this).val()])
     });
+
+    $("input[name=gender]").on("click", function() {
+        console.log($(this).val());
+    })
     
     $("#autofill").on("click", function() {
         let userInfo = {
@@ -201,12 +205,7 @@ $(document).ready(function(){
         };
         $("main div input, select").each(function(index) {
             if ($(this).attr("type") === "radio") {
-                if ($(this).attr("name") === "gender") {
-                    console.log($(this).val());
-                    userInfo.isMale = $(this).val() === "male" ? 0 : 1;
-                }
-
-                else if ($(this).is(":checked")) {
+                if ($(this).is(":checked")) {
                     userInfo[$(this).attr("name")]= $(this).val();
                 }
             }

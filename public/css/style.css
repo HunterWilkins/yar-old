@@ -4,6 +4,7 @@
 
 :root {
     --navHeight: 35px;
+    --position-class-padding: 0px;
     --text-color: rgb(202, 185, 185);
     --layer0: rgb(31, 19, 31);
     --layer1: rgb(51, 29, 40);
@@ -142,4 +143,24 @@ aside input {
 #signup {
     border-bottom-right-radius: 15px;
     border-top-right-radius: 15px;
+}
+
+.bottom, .left, .right, .top {
+    position: absolute;
+}
+
+.bottom {
+    bottom: var(--position-class-padding);
+}
+
+.left {
+    left: var(--position-class-padding);
+}
+
+.right {
+    right: var(--position-class-padding);
+}
+
+.top {
+    top: var(--position-class-padding);
 }
