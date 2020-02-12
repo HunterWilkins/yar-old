@@ -1,3 +1,8 @@
+main {
+    background: var(--layer0);
+    padding: 10px;
+}
+
 #full-view {
     display: none;
     position: fixed;
@@ -8,9 +13,13 @@
     background: rgba(0, 0, 0, 0.5);
 }
 
-
+.matched-item {
+    background: var(--layer3);
+    padding: 5px;
+}
 
 .result {
+    cursor: pointer;
     position: relative;
     display: inline-block;
     width: 175px;
@@ -51,6 +60,10 @@
     z-index: 1;
     transform: rotateY(180deg);
     background: var(--layer0);
+}
+
+.back p {
+    margin-bottom: 5px;
 }
 
 .result p {
@@ -97,28 +110,82 @@
     max-height: 100%;
 }
 
-#profile, #answers {
+#info {
     position: absolute;
-    top: 0;
-    padding: 15px;
-    width: 45%;
-    background: var(--layer0);
+    bottom: 0;
+    top: 200px;
+    text-align:left;
+    width: 100%;
 }
 
 #profile {
-    width: 45%;
-    left: 0;
+    text-align:left;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px;
+    height: 100%;
+    width: 49%;
+    background: var(--layer0);
 }
 
-#profile img {
-    max-width: 100%;
+#red-flags, #messages {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 33%;
+    width: 49%;
+    background: var(--layer0);
+    padding: 10px;
 }
 
-#answers {
+#messages {
+    height: 66%;
+    top: initial;
+    bottom: 0;
+}
+
+#messages textarea {
+    color: white;
+    position: absolute;
+    bottom: 50px;
+    left: 10px;
+    right: 10px;
+    width: 90%;
+    background: black;
+    height: 80px;
+    padding: 5px;
+}
+
+#messages button {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    bottom: 10px;
+    transform: translateX(-50%);
+    left: 50%;
+}
+
+#close-popup {
+    position: fixed;
+    background: var(--layer0);
+    font-size: 40px;
+    width: 50px;
+    height: 50px;
+    border: var(--layer3) solid 2px;
+    top: 0;
+    z-index:10;
     right: 0;
 }
 
-main {
-    background: var(--layer0);
-    padding: 10px;
+#rundown p {
+    display: inline-block;
+    padding: 5px;
+}
+
+#image img {
+    position: relative;
+    max-width: 100%;
+    max-height: 200px;
+    margin: 0 auto;
 }

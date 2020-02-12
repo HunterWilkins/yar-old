@@ -28,7 +28,7 @@ $(document).ready(function() {
             <p></p>
             `
         );
-    })
+    });
     
     $.getJSON("/api/users/all", function(data) {
         console.log(data);
@@ -52,27 +52,138 @@ $(document).ready(function() {
         })
     });
 
+    $("#close-popup").on("click", function() {
+        $("#full-view").css("display", "none");
+        $("#profile div").empty();
+
+        $("#answers").empty();
+        $("#messages").empty();
+    });
+
+    $("#messages button").on("click", function() {
+        $.ajax({
+            method: "PUT",
+            url: "/api/message",
+            data: {
+                recipient: {
+                    username: $("#username").text(),
+                    name: $("#name").text(),
+                },
+                author: {
+                    username: user.username,
+                    name: user.name
+                },
+                text: $("#messages textarea").val()
+            }
+        })
+    });
+
+    function refreshMessages(match) {
+        console.log(match);
+         $.ajax({
+            url: "/api/messages",
+            method: "POST",
+            data: {
+                recipient: {
+                    username: match.username,
+                    name: match.name
+                },
+                author: {
+                    username: user.username,
+                    name: user.name
+                }
+            },
+            success: function(data) {
+                console.log(data);
+                data.messages.forEach(item => {
+                    $("#messages section").append(
+                        `
+                        <p>${item.p} : ${item.text}</p>
+                        <br>
+                        `
+                    )
+                })
+            }
+        })
+    }
+
     function fullScreen(data) {
+
+        console.log(data.biology.username);
+
+        refreshMessages(data.biology)
+
+        let descriptions = {
+            babies : "",
+            priority: "My main priority at the moment is " + data.answers.priority.toLowerCase(),
+            sexy: "I'd wear " + data.answers.sexy.toLowerCase() + " to show off my goods.",
+            leisure: data.answers.leisure !== "Trick Question: I'd stay home." ? "My Ideal Date location: " + data.answers.leisure : "I like to stay home in my spare time."
+        }
+
+        let roleDescription = [
+            "Submissive",
+            "Moderately Submissive",
+            "Moderate Gender Role",
+            "Moderately Dominant",
+            "Dominant"
+        ]
+
+        if (data.answers.babies > 10) {
+            descriptions.babies = "I want SOOO MANY BABIES! More than 10 at least!";
+        }
+
+        else if (data.answers.babies === 0) {
+            descriptions.babies = "I don't want any children.";
+        }
+
+        else {
+            descriptions.babies = "I want about " + data.answers.babies + " babies."
+        }
+
+        let rolestest = [
+            0,1,2,3,4
+        ]
+
+        let desiredRole = Math.abs(data.personality.role - 4);
         
         for (x in data.biology) {
-            $("#profile").append(
-                x !== "image" ?
-                `
-                <p>${x} : ${data.biology[x]}</p>
-                ` 
-                :
-                `
-                <img src = "${data.biology[x]}"></img>
-                `
-            )
+            if (x !== "image") {
+                if (user[x] === data.biology[x] && x !== "name" && x !== "gender" && x !== "username") {
+                    $("#" + x).attr("class", "matched-item");
+                }
+                
+                $("#" + x).text( typeof data.biology[x] === "string" ? capitalize(data.biology[x]) : data.biology[x]);
+            }
+
+            else {
+                $("#image").append(`<img src = "${data.biology[x]}"></img>`)
+            }
         }
 
         for (x in data.personality) {
-            $("#profile").append(
-                `
-                <p>${x} : ${data.personality[x]}</p>
-                ` 
-            );
+            if (x !== "role" && x !== "politics") {
+                $("#" + x).append(
+                    `
+                    <p ${user[x] === data.personality[x] ? "class = 'matched-item'":"" }>${capitalize(data.personality[x])}</p>
+                    ` 
+                );    
+            }
+
+            else if (x === "politics") {
+                $("#" + x).append(
+                    `
+                    <p ${user[x] === data.personality[x] ? "class = 'matched-item'":"" }>${ data.personality[x] === "moderate" ? "Moderate Politics": capitalize(data.personality[x]) + " Wing"}</p>
+                    ` 
+                );    
+            }
+
+            else {
+                $("#" + x).append(
+                    `
+                    <p ${user[x] === desiredRole ? "class = 'matched-item'":"" }>${roleDescription[data.personality.role]}</p>
+                    ` 
+                );
+            }
         }
 
         for (x in data.answers) {
@@ -89,22 +200,22 @@ $(document).ready(function() {
                         console.log(firstInterests);
                         console.log(finalInterest);
                         
-                        populate("#answers", "p", `I'm interested in ${firstInterests}, and ${finalInterest}!`)
+                        populate("#answers", "p", `I'm interested in ${firstInterests}, and ${finalInterest}! <br><br>`);
                     }
                 }
                 
-                $("#answers").append("<hr>");
+               
             }
 
             else {
                 $("#answers").append(
                     `
-                    <p>${x + " : " + data.answers[x]}</p>
+                    <p ${user[x] === data.answers[x] ? "class = 'matched-item'" : ""}>${descriptions[x]}</p>
+                    <br>
                     `
                 )
             }
         }
-        
 
         $("#full-view").css({"display": "block"});
     }
@@ -149,26 +260,22 @@ $(document).ready(function() {
             
             if (user.prolife === match.prolife) {
                 if (item === "role" && user.role === roleDesires[match.role]) {
-                    console.log("Matching: Roles");
                     similarities++;
                 }
                 
                 else if (item === "age") {
                     if (Math.abs(user.age - match.age) <= 3) {
-                        console.log("Just in the age range!");
                         similarities++;
                     }
                 }
 
                 else if (item === "babies") {
                     if (Math.abs(user.babies - match.babies) <= 2) {
-                        console.log("Match: Babies");
                         similarities++;
                     }
                 }
 
                 else if (user[item] === match[item]) {
-                    console.log("Matching: " + item);
                     similarities++;
                 }
             }
@@ -214,7 +321,7 @@ $(document).ready(function() {
                     </div>
                     <div class = "back">
                         <p>${match.politics === "moderate" ? "Moderate" : capitalize(match.politics) + " Wing"}</p>
-                        <span>${roleDesc[match.role]}</p>
+                        <p>${roleDesc[match.role]}</p>
                         <p>I want to have ${babiesDesc}</p>
                         <p class = "bottom left">${match.height}</p>
                         <p class = "bottom right">${match.weight} lbs</p>

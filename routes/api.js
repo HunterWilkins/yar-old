@@ -44,7 +44,7 @@ module.exports = function(app) {
                 personality: {
                     religion: dbUser.religion,
                     outgoing: dbUser.outgoing,
-                    prolife: dbUser.prolife,
+                    // prolife: dbUser.prolife,
                     politics: dbUser.politics,
                     role: dbUser.role,
                     
@@ -87,6 +87,29 @@ module.exports = function(app) {
 
     });
 
+    app.post("/api/messages", function(req, res) {
+        console.log("Finding Chats for Fullscreen =/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/");
+        console.log(req.body.recipient);
+        console.log(req.body.author);
+        db.Chat.findOne({
+            recipient: req.body.recipient.username,
+            author: req.body.author.username
+        }).then(function(dbChat) {
+            if (dbChat === null) {
+                db.Chat.findOne({
+                    recipient: req.body.author.username,
+                    author: req.body.recipient.username
+                }).then(function(dbBackupChat) {
+                    res.json(dbBackupChat);
+                })
+            }
+
+            else {
+                res.json(dbChat);
+            }
+        }).catch(err => res.json(err));
+    })
+
     app.post("/api/signin", function(req, res) {
         console.log(req.body);
         db.User.findOne({
@@ -127,4 +150,50 @@ module.exports = function(app) {
             res.json(dbUser);
         }).catch(err => console.log(err));
     });
+
+    app.put("/api/message", function(req, res) {
+        db.Chat.findOne({
+            author: req.body.author.username,
+            recipient: req.body.recipient.username            
+        }).then(function(dbChat) {
+            if (dbChat === null) {
+                db.Chat.findOne({
+                    author: req.body.recipient.username,
+                    recipient: req.body.author.username
+                }).then(function(dbBackupChat) {
+                    if (dbBackupChat === null) {
+                        console.log("No previous chat found where " + req.body.author.username + "sent " + req.body.recipient.username + " a message.");
+                        db.Chat.create({
+                            author: req.body.author.username,
+                            recipient: req.body.recipient.username,
+                            messages: [
+                                {p: req.body.author.username,
+                                text: req.body.text}
+                            ],
+                            id: Math.floor(Math.random()*800)
+                        });        
+                    }
+
+                    else {
+                        console.log("Found chat!");
+                        db.Chat.findOneAndUpdate({
+                            author: req.body.recipient.username,
+                            recipient: req.body.author.username  
+                        }, {$push: {messages: {p: req.body.author.username, text: req.body.text }}}, {useFindAndModify: false}).then(function(IhateThis) {
+                            console.log(IhateThis);
+                        });
+                    }
+                });
+            }
+
+            else {
+                db.Chat.findOneAndUpdate({
+                    author: req.body.author.username,
+                    recipient: req.body.recipient.username  
+                }, {$push: {messages: {p: req.body.author.username, text: req.body.text }}}, {useFindAndModify: false}).then(function(IhateThis) {
+                    console.log(IhateThis);
+                });
+            }
+        }).catch(err => console.log(err));
+    })
 }

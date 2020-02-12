@@ -201,7 +201,8 @@ $(document).ready(function(){
         let userInfo = {
             interests : [],
             priorities: [],
-            termination: []
+            termination: [],
+            messages: []
         };
         $("main div input, select").each(function(index) {
             if ($(this).attr("type") === "radio") {

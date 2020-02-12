@@ -88,6 +88,10 @@ let UserSchema = new Schema ({
         type: Array
     },
 
+    messages: {
+        type: Array
+    },
+
     id: {
         type: String,
         unique: true
