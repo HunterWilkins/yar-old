@@ -12,7 +12,6 @@ $(document).ready(function() {
         basic: [] 
     }
 
-
     $.getJSON("/api/currentUser", function(data) {
         for (x in data) {   
             user[x] = data[x];
@@ -74,8 +73,25 @@ $(document).ready(function() {
                     name: user.name
                 },
                 text: $("#messages textarea").val()
+            },
+            success: function() {
+                let scrollHeight = document.querySelector("#messages section").scrollHeight;
+                console.log(scrollHeight);
+                $("#messages section").animate({
+                    scrollTop: scrollHeight
+                }, 1000);
             }
-        })
+        });
+
+        $("#messages section").append(
+            `
+            <p class = "user-me">${user.username}</p>
+            <p class = "user-me">${$("#messages textarea").val()}</p>
+            `
+        );
+
+        $("#messages textarea").val("");
+
     });
 
     function refreshMessages(match) {
@@ -98,11 +114,18 @@ $(document).ready(function() {
                 data.messages.forEach(item => {
                     $("#messages section").append(
                         `
-                        <p>${item.p} : ${item.text}</p>
+                        <p class = ${item.p === user.username ? "user-me" : "user-other"}><strong>${item.p}</strong></p>
+                        <p class = ${item.p === user.username ? "user-me" : "user-other"}>${item.text}</p>
                         <br>
                         `
                     )
-                })
+                },)
+
+                let scrollHeight = document.querySelector("#messages section").scrollHeight;
+                console.log(scrollHeight);
+                $("#messages section").animate({
+                    scrollTop: scrollHeight
+                }, 0);
             }
         })
     }
@@ -218,6 +241,7 @@ $(document).ready(function() {
         }
 
         $("#full-view").css({"display": "block"});
+      
     }
 
     function capitalize(string) {

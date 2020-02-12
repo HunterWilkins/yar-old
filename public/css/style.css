@@ -33,6 +33,10 @@ a {
     color: inherit;
 }
 
+strong {
+    font-weight: bolder;
+}
+
 hr {
     border:none;
     border-bottom: 2px solid var(--layer4);

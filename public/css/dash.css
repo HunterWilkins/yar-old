@@ -145,6 +145,25 @@ main {
     bottom: 0;
 }
 
+.user-me {
+    background: var(--layer3);
+    padding: 5px;
+    
+}
+
+.user-other {
+    background: var(--layer2);
+    padding: 5px;
+}
+
+#messages section {
+    position: absolute;
+    top: 50px;
+    bottom: 135px;
+    overflow-y: scroll;
+    padding: 5px;
+}
+
 #messages textarea {
     color: white;
     position: absolute;

@@ -37,7 +37,7 @@ $(document).ready(function(){
                 logout: true   
             },
             success: function() {
-                window.location.reload();
+                window.location.replace("/landing");
             }
         });
     });

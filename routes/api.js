@@ -180,6 +180,8 @@ module.exports = function(app) {
                             author: req.body.recipient.username,
                             recipient: req.body.author.username  
                         }, {$push: {messages: {p: req.body.author.username, text: req.body.text }}}, {useFindAndModify: false}).then(function(IhateThis) {
+                        res.sendStatus(200);
+                            
                             console.log(IhateThis);
                         });
                     }
@@ -192,6 +194,7 @@ module.exports = function(app) {
                     recipient: req.body.recipient.username  
                 }, {$push: {messages: {p: req.body.author.username, text: req.body.text }}}, {useFindAndModify: false}).then(function(IhateThis) {
                     console.log(IhateThis);
+                    res.sendStatus(200);
                 });
             }
         }).catch(err => console.log(err));
