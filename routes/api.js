@@ -25,7 +25,7 @@ module.exports = function(app) {
                 sexy: dbUser.sexy
             }
             res.json(results);
-        });
+        }).catch(err => res.json(err));
     });
 
     app.post("/api/users/:filter", function(req, res) {
@@ -90,10 +90,13 @@ module.exports = function(app) {
                     confrontation: dbUser.confrontation,
                     sexy: dbUser.sexy,
                 },
+
+                flags: dbUser.flags,
+                stars: dbUser.stars
                 
             };
             res.json(matchInfo);
-        }).catch(err => console.log(err));
+        }).catch(err => res.json(err));
     })
 
     app.post("/api/signup", function(req, res) {

@@ -1,3 +1,40 @@
+figure {
+    display: inline-block;
+    margin: 0 auto;
+    position: relative;
+}
+
+
+
+#ratings {
+    position: absolute;
+    top: 0px;
+    left: 250px;
+    height: 200px;
+    right: 10px;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+#stars, #flags {
+    display: inline-block;
+    background: var(--layer3);
+    padding: 15px;
+    width: 45%;
+    height: 100%;
+    vertical-align:middle;
+    
+    box-shadow: 0 5px 5px rgb(11, 8, 26);
+}
+
+#flags ul {
+    list-style: "- " inside;
+}
+
+#stars ul {
+    list-style: "★ " inside
+}
+
 img {
     max-width: 200px;
 }
@@ -44,8 +81,9 @@ section {
     background: var(--layer0);
 }
 
-#tabgroup {
+.tabgroup {
     position: absolute;
+    left: 0;
     bottom: 100%;
     width: 100%;
     text-align: right;
@@ -57,6 +95,7 @@ section {
     margin-left: 5px;
     padding: 5px;
     display: inline-block;
+    vertical-align: bottom;
 }
 
 #biology p, #personality p {
@@ -79,11 +118,6 @@ section p {
 
 #answers p {
     line-height: 1.25em;
-}
-
-figure {
-    display: block;
-    margin: 0 auto;
 }
 
 #flag {
@@ -141,49 +175,6 @@ figure {
     display: none;
 }
 
-.ratings {
-    cursor: pointer;
-    width: 35px;
-    height: 35px;
-    text-align:center;
-    font-size: 25px;
-    position: absolute;
-    top: 0;
-    left: 500px;
-}
-
-#red-flags-trigger {
-    background: rgb(139, 6, 6);
-    color: white;
-    border: white solid 2px;
-}
-
-#stars-trigger {
-    color: var(--highlight);
-    left: 545px;
-    background: var(--layer0);
-    border-radius: 50%;
-}
-
-#stars-trigger p {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-}
-
-#rating-area {
-    position: absolute;
-    top: 35px;
-    left: 520px;
-    right: 0px;
-    background: var(--layer0);
-    padding: 15px;
-}
-
-#stars {
-    display: none;
-}
 
 #messaging {
     position: absolute;

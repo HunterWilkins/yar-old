@@ -92,7 +92,7 @@ let UserSchema = new Schema ({
         type: Array
     },
 
-    redFlags: {
+    flags: {
         type: Array
     },
 

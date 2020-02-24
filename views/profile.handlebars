@@ -1,50 +1,47 @@
 <link rel="stylesheet" href="/css/profile.css">
 
-<figure></figure>
+<figure>
+</figure>
 <p id="name"></p>
 <p id = "username"></p>
 <div id="info">
 
-    <div id="tabgroup">
-        <p class = "active tab">Biology</p>
-        <p class="tab">Personality</p>
-        <p class="tab">Answers</p>
+    <div class="tabgroup">
+        <p data-link = "biology" class = "active tab">Biology</p>
+        <p data-link = "personality" class="tab">Personality</p>
+        <p data-link = "answers" class="tab">Misc</p>
     </div>
     
-    <section id = "biology">
-
-    </section>
-
-    <br>
-    <section id="personality">
-    </section>
-    <section id = "answers">
-    </section>
+    <section id = "biology"></section>
+    <section id="personality"></section>
+    <section id = "answers"></section>
 </div>
 
-<button class = "ratings" id = "red-flags-trigger">!</button>
-<div class = "ratings" id = "stars-trigger">
-    <p>★</p>
-</div>
 
-<div id="rating-area">
-    <div id="red-flags">
+<div id="ratings">
+    <div id="flags">
         <h2>Red Flags!</h2>
+        <hr>
         <em><p>Questionable things users should be aware of.</p></em>
-        <button class = "top right" id = "flag-user">!</button>
+        <hr>
         <ul>
         
         </ul>
     </div>
+
     <div id = "stars">
         <h2>Stars</h2>
+        <hr>
         <em><p>Noteworthy positive things!</p></em>
+        <hr>
         <ul>
 
         </ul>
+        
     </div>
 
 </div>
+
 
 <div id="messaging">
     <h2>Messaging...</h2>
