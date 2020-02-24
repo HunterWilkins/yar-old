@@ -92,6 +92,14 @@ let UserSchema = new Schema ({
         type: Array
     },
 
+    redFlags: {
+        type: Array
+    },
+
+    stars: {
+        type: Array
+    },
+
     id: {
         type: String,
         unique: true

@@ -27,6 +27,9 @@
     background: var(--highlight);
 }
 
+body {
+    background: var(--layer0);
+}
 
 a {
     text-decoration: none;
@@ -35,6 +38,10 @@ a {
 
 strong {
     font-weight: bolder;
+}
+
+em {
+    font-style: italic;
 }
 
 hr {

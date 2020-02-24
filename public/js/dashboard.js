@@ -1,10 +1,6 @@
 $(document).ready(function() {
 
-    let user = {
-        interests: [],
-        priorities: [],
-        termination: []
-    };
+    let user;
 
     let matches = {
         ideal: [],
@@ -13,13 +9,11 @@ $(document).ready(function() {
     }
 
     $.getJSON("/api/currentUser", function(data) {
-        for (x in data) {   
-            user[x] = data[x];
-        }
-        console.log(user.religion.slice(1));
+        
+        user = data;
+        console.log(user);
         $("aside").append(
             `
-            <p>Gender: ${capitalize(user.gender)}</p>
             <p>${capitalize(user.race)}</p>
             <p>Age: ${user.age}</p>
             <p>${capitalize(user.religion)}</p>
@@ -29,13 +23,17 @@ $(document).ready(function() {
         );
     });
     
-    $.getJSON("/api/users/all", function(data) {
+    $.ajax({
+        method: "POST",
+        url: "/api/users/all",
+        success: function(data) {
         console.log(data);
 
         data.forEach(item => {
-            matchmaker(item);
-                  
+            matchmaker(item);  
         });
+        },
+    
     });
 
     $("section").on("click", ".result", function() {
@@ -130,119 +128,132 @@ $(document).ready(function() {
         })
     }
 
-    function fullScreen(data) {
+    $("#custom-match").on("change", function() {
+        $.ajax({
+            method: "POST",
+            url: "/api/users/" + $(this).val(),
+            data: {
+                filter: user[$(this).val()]
+            },
+            success: function(data) {
+                console.log(data);
+            }
+        })
+    })
 
-        console.log(data.biology.username);
+    // function fullScreen(data) {
 
-        refreshMessages(data.biology)
+    //     console.log(data.biology.username);
 
-        let descriptions = {
-            babies : "",
-            priority: "My main priority at the moment is " + data.answers.priority.toLowerCase(),
-            sexy: "I'd wear " + data.answers.sexy.toLowerCase() + " to show off my goods.",
-            leisure: data.answers.leisure !== "Trick Question: I'd stay home." ? "My Ideal Date location: " + data.answers.leisure : "I like to stay home in my spare time."
-        }
+    //     refreshMessages(data.biology)
 
-        let roleDescription = [
-            "Submissive",
-            "Moderately Submissive",
-            "Moderate Gender Role",
-            "Moderately Dominant",
-            "Dominant"
-        ]
+    //     let descriptions = {
+    //         babies : "",
+    //         priority: "My main priority at the moment is " + data.answers.priority.toLowerCase(),
+    //         sexy: "I'd wear " + data.answers.sexy.toLowerCase() + " to show off my goods.",
+    //         leisure: data.answers.leisure !== "Trick Question: I'd stay home." ? "My Ideal Date location: " + data.answers.leisure : "I like to stay home in my spare time."
+    //     }
 
-        if (data.answers.babies > 10) {
-            descriptions.babies = "I want SOOO MANY BABIES! More than 10 at least!";
-        }
+    //     let roleDescription = [
+    //         "Submissive",
+    //         "Moderately Submissive",
+    //         "Moderate Gender Role",
+    //         "Moderately Dominant",
+    //         "Dominant"
+    //     ]
 
-        else if (data.answers.babies === 0) {
-            descriptions.babies = "I don't want any children.";
-        }
+    //     if (data.answers.babies > 10) {
+    //         descriptions.babies = "I want SOOO MANY BABIES! More than 10 at least!";
+    //     }
 
-        else {
-            descriptions.babies = "I want about " + data.answers.babies + " babies."
-        }
+    //     else if (data.answers.babies === 0) {
+    //         descriptions.babies = "I don't want any children.";
+    //     }
 
-        let rolestest = [
-            0,1,2,3,4
-        ]
+    //     else {
+    //         descriptions.babies = "I want about " + data.answers.babies + " babies."
+    //     }
 
-        let desiredRole = Math.abs(data.personality.role - 4);
+    //     let rolestest = [
+    //         0,1,2,3,4
+    //     ]
+
+    //     let desiredRole = Math.abs(data.personality.role - 4);
         
-        for (x in data.biology) {
-            if (x !== "image") {
-                if (user[x] === data.biology[x] && x !== "name" && x !== "gender" && x !== "username") {
-                    $("#" + x).attr("class", "matched-item");
-                }
+    //     for (x in data.biology) {
+    //         if (x !== "image") {
+    //             if (user[x] === data.biology[x] && x !== "name" && x !== "gender" && x !== "username") {
+    //                 $("#" + x).attr("class", "matched-item");
+    //             }
                 
-                $("#" + x).text( typeof data.biology[x] === "string" ? capitalize(data.biology[x]) : data.biology[x]);
-            }
+    //             $("#" + x).text( typeof data.biology[x] === "string" ? capitalize(data.biology[x]) : data.biology[x]);
+    //         }
 
-            else {
-                $("#image").append(`<img src = "${data.biology[x]}"></img>`)
-            }
-        }
+    //         else {
+    //             $("#image").append(`<img src = "${data.biology[x]}"></img>`)
+    //         }
+    //     }
 
-        for (x in data.personality) {
-            if (x !== "role" && x !== "politics") {
-                $("#" + x).append(
-                    `
-                    <p ${user[x] === data.personality[x] ? "class = 'matched-item'":"" }>${capitalize(data.personality[x])}</p>
-                    ` 
-                );    
-            }
+    //     for (x in data.personality) {
+    //         if (x !== "role" && x !== "politics") {
+    //             $("#" + x).append(
+    //                 `
+    //                 <p ${user[x] === data.personality[x] ? "class = 'matched-item'":"" }>${capitalize(data.personality[x])}</p>
+    //                 ` 
+    //             );    
+    //         }
 
-            else if (x === "politics") {
-                $("#" + x).append(
-                    `
-                    <p ${user[x] === data.personality[x] ? "class = 'matched-item'":"" }>${ data.personality[x] === "moderate" ? "Moderate Politics": capitalize(data.personality[x]) + " Wing"}</p>
-                    ` 
-                );    
-            }
+    //         else if (x === "politics") {
+    //             $("#" + x).append(
+    //                 `
+    //                 <p ${user[x] === data.personality[x] ? "class = 'matched-item'":"" }>${ data.personality[x] === "moderate" ? "Moderate Politics": capitalize(data.personality[x]) + " Wing"}</p>
+    //                 ` 
+    //             );    
+    //         }
 
-            else {
-                $("#" + x).append(
-                    `
-                    <p ${user[x] === desiredRole ? "class = 'matched-item'":"" }>${roleDescription[data.personality.role]}</p>
-                    ` 
-                );
-            }
-        }
+    //         else {
+    //             $("#" + x).append(
+    //                 `
+    //                 <p ${user[x] === desiredRole ? "class = 'matched-item'":"" }>${roleDescription[data.personality.role]}</p>
+    //                 ` 
+    //             );
+    //         }
+    //     }
 
-        for (x in data.answers) {
-            if (typeof data.answers[x] === "object") {
-                if (x === "interests") {
-                    if (data.answers.interests.length === 1) {
-                        populate("#answers", "p", `I'm interested in ${data.answers.interests[0]}!`);
-                    }
-                    else {
-                        // data.answers.interests.splice(data.answers.interests.length-1, 0, "and");
-                        let firstInterests = data.answers.interests.slice(0, data.answers.interests.length-1).join(", ");
-                        let finalInterest = data.answers.interests[data.answers.interests.length-1];
+    //     for (x in data.answers) {
+    //         if (typeof data.answers[x] === "object") {
+    //             if (x === "interests") {
+    //                 if (data.answers.interests.length === 1) {
+    //                     populate("#answers", "p", `I'm interested in ${data.answers.interests[0]}!`);
+    //                 }
+    //                 else {
+    //                     // data.answers.interests.splice(data.answers.interests.length-1, 0, "and");
+    //                     let firstInterests = data.answers.interests.slice(0, data.answers.interests.length-1).join(", ");
+    //                     let finalInterest = data.answers.interests[data.answers.interests.length-1];
 
-                        console.log(firstInterests);
-                        console.log(finalInterest);
+    //                     console.log(firstInterests);
+    //                     console.log(finalInterest);
                         
-                        populate("#answers", "p", `I'm interested in ${firstInterests}, and ${finalInterest}! <br><br>`);
-                    }
-                }
+    //                     populate("#answers", "p", `I'm interested in ${firstInterests}, and ${finalInterest}! <br><br>`);
+    //                 }
+    //             }
                 
                
-            }
+    //         }
 
-            else {
-                $("#answers").append(
-                    `
-                    <p ${user[x] === data.answers[x] ? "class = 'matched-item'" : ""}>${descriptions[x]}</p>
-                    <br>
-                    `
-                )
-            }
-        }
+    //         else {
+    //             $("#answers").append(
+    //                 `
+    //                 <p ${user[x] === data.answers[x] ? "class = 'matched-item'" : ""}>${descriptions[x]}</p>
+    //                 <br>
+    //                 `
+    //             )
+    //         }
+    //     }
 
-        $("#full-view").css({"display": "block"});
+    //     $("#full-view").css({"display": "block"});
       
-    }
+    // }
 
     function capitalize(string) {
         return string.slice(0)[0].toUpperCase() + string.slice(1);
@@ -262,8 +273,6 @@ $(document).ready(function() {
         
         let similarities = 0;
 
-        let incompatible = false;
-
         let roleDesires = {
             0: 4,
             1: 3,
@@ -280,46 +289,41 @@ $(document).ready(function() {
             4: "Dominant"
         }
 
+        let babiesDesc;
+
         criteria.forEach(item => {
+            if (item === "role" && user.role === roleDesires[match.role]) {
+                similarities++;
+            }
             
-            if (user.prolife === match.prolife) {
-                if (item === "role" && user.role === roleDesires[match.role]) {
-                    similarities++;
-                }
-                
-                else if (item === "age") {
-                    if (Math.abs(user.age - match.age) <= 3) {
-                        similarities++;
-                    }
-                }
-
-                else if (item === "babies") {
-                    if (Math.abs(user.babies - match.babies) <= 2) {
-                        similarities++;
-                    }
-                }
-
-                else if (user[item] === match[item]) {
+            else if (item === "age") {
+                if (Math.abs(user.age - match.age) <= 3) {
                     similarities++;
                 }
             }
+
+            else if (item === "babies") {
+                if (Math.abs(user.babies - match.babies) <= 2) {
+                    similarities++;
+                }
+            }
+
+            else if (user[item] === match[item]) {
+                similarities++;
+            }
+        
         });
 
-        if (incompatible === false) {
-            let target;
+        console.log(similarities);
+
         if (similarities === criteria.length) {
             target = "#ideal-matches";
         }
 
-        else if (similarities >= (criteria.length)/2) {
+        else {
             target = "#secondary-matches";
         }
-
-        else {
-            target = "#basic-matches"
-        }
-
-        let babiesDesc;
+        
         switch(match.babies) {
             case 0:
                 babiesDesc = "no children."
@@ -333,7 +337,7 @@ $(document).ready(function() {
 
         $(target).append(
             `
-            <div class = "result" data-name = "${match.username}">
+            <a href = "/users/${match.username}" class = "result" data-name = "${match.username}">
                 <div class = "inner">
                     <div class = "front">
                         <p class = "top">${match.name}</p>
@@ -351,11 +355,9 @@ $(document).ready(function() {
                         <p class = "bottom right">${match.weight} lbs</p>
                     </div>
                 </div>
-            </div>
+            </a>
             `
         );  
-
-        }
     }
 
     function populate(destination, element, string) {

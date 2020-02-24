@@ -11,6 +11,10 @@ module.exports = function(app) {
         res.render("dashboard", {session: req.session});
     })
 
+    app.get("/users/:username", function(req, res) {
+        res.render("profile", {session: req.session})
+    })
+
     app.get("*", function(req, res) {
         res.render("landing", {session: req.session});
     });

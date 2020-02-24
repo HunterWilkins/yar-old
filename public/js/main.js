@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+    let user = "Blomchoms";
+
     $("#signup").on("click", function(){
         $.ajax({
             type: "POST",

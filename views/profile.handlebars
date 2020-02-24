@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="/css/profile.css">
+
+<figure></figure>
+<p id="name"></p>
+<p id = "username"></p>
+<div id="info">
+
+    <div id="tabgroup">
+        <p class = "active tab">Biology</p>
+        <p class="tab">Personality</p>
+        <p class="tab">Answers</p>
+    </div>
+    
+    <section id = "biology">
+
+    </section>
+
+    <br>
+    <section id="personality">
+    </section>
+    <section id = "answers">
+    </section>
+</div>
+
+<button class = "ratings" id = "red-flags-trigger">!</button>
+<div class = "ratings" id = "stars-trigger">
+    <p>★</p>
+</div>
+
+<div id="rating-area">
+    <div id="red-flags">
+        <h2>Red Flags!</h2>
+        <em><p>Questionable things users should be aware of.</p></em>
+        <button class = "top right" id = "flag-user">!</button>
+        <ul>
+        
+        </ul>
+    </div>
+    <div id = "stars">
+        <h2>Stars</h2>
+        <em><p>Noteworthy positive things!</p></em>
+        <ul>
+
+        </ul>
+    </div>
+
+</div>
+
+<div id="messaging">
+    <h2>Messaging...</h2>
+    <article></article>
+    <textarea></textarea>
+</div>
+
+<!--Flags and Stars Popups-->
+
+<div id="flag">
+    <h3>What should other users be aware of?</h3>
+    <br>
+    <select name="redFlags">
+        <option disabled selected>Potential Red Flags...</option>
+    </select>
+    <br><br>
+    <div id="lies">
+        <select name="lies">
+            <option disabled selected>What did this person lie about?</option>
+
+        </select>
+        <br><br>
+    <input id = "other-lies" type="text" placeholder = "Other...">
+    </div>
+    <button class = "bottom left" id = "cancel">Cancel</button>
+    <button class = "bottom right" id = "submit-flag">Submit</button>
+</div>
+
+<script src="/js/profile.js"></script>

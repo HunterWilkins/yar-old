@@ -1,0 +1,196 @@
+img {
+    max-width: 200px;
+}
+
+aside {
+    display: none;
+}
+
+main {
+    right: initial;
+    left: initial;
+    width: 90%;
+    transform: translateX(-50%);
+    left: 50%;
+}
+
+#name {
+    font-size: 28px;
+}
+
+#username {
+    font-style: italic;
+}
+
+.matched {
+    background: var(--layer3);
+    padding: 5px;
+}
+
+#info {
+    position: relative;
+    width: 500px;
+    height: initial;
+    background: var(--layer0);
+    z-index: 4;
+}
+
+section {
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--layer0);
+}
+
+#tabgroup {
+    position: absolute;
+    bottom: 100%;
+    width: 100%;
+    text-align: right;
+}
+
+.tab {
+    cursor: pointer;
+    position: relative;
+    margin-left: 5px;
+    padding: 5px;
+    display: inline-block;
+}
+
+#biology p, #personality p {
+    display: block;
+}
+
+section p {
+    margin-bottom: 5px;
+}
+
+#personality, #answers {
+    display: none;
+}
+
+.active {
+    background: var(--layer0);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+#answers p {
+    line-height: 1.25em;
+}
+
+figure {
+    display: block;
+    margin: 0 auto;
+}
+
+#flag {
+    position: fixed;
+    display: none;
+    text-align:center;
+    border: var(--layer4) solid 3px;
+    border-radius: 15px;
+    overflow:hidden;
+    box-shadow: -2px 4px 5px black;
+    padding: 10px;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    min-height: 270px;
+    
+    background: var(--layer0);
+}
+
+#flag select, #flag input{
+    padding: 10px;
+    background: var(--layer2);
+    font-size: 16px;
+    color: var(--text-color);
+    border: none;
+}
+
+#flag button {
+    background: var(--layer3);
+    padding: 15px;
+    font-size: 18px;
+    border-bottom: none;
+    border-top: var(--layer4) solid 2px;
+}
+
+#cancel {
+    border-top-right-radius: 15px;
+    border-right: var(--layer4) solid 2px;
+    border-left: var(--layer3) solid 2px;
+}
+
+#submit-flag {
+    border-top-left-radius: 15px;
+    border-left: var(--layer4) solid 2px;
+    border-right: var(--layer3) solid 2px;
+}
+
+#lies {
+    display: none;
+}
+
+#other-lies {
+    margin: 0 auto;
+    display: none;
+}
+
+.ratings {
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    text-align:center;
+    font-size: 25px;
+    position: absolute;
+    top: 0;
+    left: 500px;
+}
+
+#red-flags-trigger {
+    background: rgb(139, 6, 6);
+    color: white;
+    border: white solid 2px;
+}
+
+#stars-trigger {
+    color: var(--highlight);
+    left: 545px;
+    background: var(--layer0);
+    border-radius: 50%;
+}
+
+#stars-trigger p {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+
+#rating-area {
+    position: absolute;
+    top: 35px;
+    left: 520px;
+    right: 0px;
+    background: var(--layer0);
+    padding: 15px;
+}
+
+#stars {
+    display: none;
+}
+
+#messaging {
+    position: absolute;
+    padding: 15px;
+    left: 520px;
+    top: 200px;
+    bottom: 50px;
+    right: 0px;
+    background: var(--layer0);
+}

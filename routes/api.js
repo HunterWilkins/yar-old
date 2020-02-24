@@ -7,20 +7,50 @@ module.exports = function(app) {
             username: req.session.username,
             id: req.session.userId
         }).then(function(dbUser){
-            res.json(dbUser);
+            let results = {
+                username: dbUser.username,
+                name: dbUser.name,
+                age: dbUser.age,
+                race: dbUser.race,
+                religion: dbUser.religion,
+                outgoing: dbUser.outgoing,
+                prolife: dbUser.prolife,
+                politics: dbUser.politics,
+                role: dbUser.role,
+                interests: dbUser.interests,
+                babies: dbUser.babies,
+                leisure: dbUser.leisure,
+                priority: dbUser.priority,
+                priorities: dbUser.priorities,
+                sexy: dbUser.sexy
+            }
+            res.json(results);
         });
     });
 
-    app.get("/api/users/all", function(req, res) {
+    app.post("/api/users/:filter", function(req, res) {
         db.User.findOne({
             id: req.session.userId
         }).then(function(dbUser) {
             console.log(dbUser);
-            db.User.find({
-                gender: dbUser.gender === "male" ? "female" : "male"
-            }).then(function(dbResults) {
-                res.json(dbResults);
-            })
+            if (req.params.filter === "all") {
+                db.User.find({
+                    gender: dbUser.gender === "male" ? "female" : "male",
+                    prolife: dbUser.prolife === true ? true : false
+                }).then(function(dbResults) {
+                    res.json(dbResults);
+                });    
+            }
+
+            else {
+                db.User.find({
+                    gender: dbUser.gender === "male" ? "female" : "male",
+                    prolife: dbUser.prolife === true ? true : false,
+                    [req.params.filter] : req.body.filter
+                }).then(function(dbResults) {
+                    res.json(dbResults);
+                }).catch(err => res.json(err));
+            }
             
         }).catch(err => console.log(err));
     });
@@ -52,10 +82,12 @@ module.exports = function(app) {
 
                 answers: {
                     interests: dbUser.interests,
+                    priority: dbUser.priority,
                     priorities: dbUser.priorities,
+                    termination: dbUser.termination,
                     babies: dbUser.babies,
                     leisure: dbUser.leisure,
-                    priority: dbUser.priority,
+                    confrontation: dbUser.confrontation,
                     sexy: dbUser.sexy,
                 },
                 
@@ -198,5 +230,5 @@ module.exports = function(app) {
                 });
             }
         }).catch(err => console.log(err));
-    })
+    });
 }

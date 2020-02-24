@@ -108,7 +108,7 @@ $(document).ready(function(){
                 "The other's descent into poor health",
                 "The other's Apathy",
                 "The other's financial dependence",
-                "Long Distance Relationship",
+                "A Long Distance Relationship",
                 "A lack of excitement",
                 "A better romantic prospect",
                 "Sudden injury to me / the other"
