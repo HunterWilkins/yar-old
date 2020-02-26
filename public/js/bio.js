@@ -235,7 +235,31 @@ $(document).ready(function(){
 
         $("input[type = range]").each(function(item) {
             $(this).attr("value", data[$(this).attr("name")]);
-        })
+
+            if ($(this).attr("name") === "role") {
+                $("#role-description").text(genderRoles.male[$(this).val()])
+            }
+
+            else {
+                let desc;
+                switch($(this).val()) {
+                    case "0":
+                        desc = "None."
+                        break;
+                    
+                    case "11": 
+                        desc = "SOOOO MANY!!! (10+)";
+                        break;
+                        
+                    default: 
+                        desc = $(this).val();
+                        break;
+                }
+
+                $("#question-box #babies-desc").text(desc);
+                        
+                    }
+                });
 
     })
 
