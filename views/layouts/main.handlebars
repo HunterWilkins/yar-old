@@ -19,14 +19,6 @@
         {{/if}}
     </nav>
     <main>
-        <aside>
-            {{#if session.userId}}
-            <h2>{{session.username}}</h2>
-            <a class = "navbuttons" href="/settings">Settings</a>
-            {{else}}
-            <h2>User</h2>
-            {{/if}}
-        </aside>
         
         {{{body}}}
     

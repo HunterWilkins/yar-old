@@ -70,9 +70,8 @@ main {
     position: absolute;
     left: 0;
     bottom: 0;
+    right: 0;
     top: var(--navHeight);
-    right: 150px;
-
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -102,26 +101,6 @@ nav > * {
 #logout {
     position: absolute;
     right: 5px;
-}
-
-aside {
-    width: 150px;
-    padding: 5px;
-    position: fixed;
-    top: var(--navHeight);
-    bottom: 0;
-    right: 0;
-    text-align:center;
-    background: var(--layer2);
-}
-
-aside input {
-    border: none;
-    padding: 5px;
-    background: var(--layer0);
-    color: white;
-    max-width: 100%;
-    margin-bottom: 5px;
 }
 
 .navbuttons {

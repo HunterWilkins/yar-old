@@ -149,7 +149,7 @@ $(document).ready(function(){
             )
         }
 
-        else {
+        else if (item.name !== "confrontation"){
             item.a.forEach(answer => {
             
                 $("#question-box").append(
@@ -161,6 +161,20 @@ $(document).ready(function(){
                     `
                 )    
             });      
+        }
+
+        else {
+            item.a.forEach(answer => {
+            
+                $("#question-box").append(
+                    `
+                    <input type="${item.type}" name="${item.name}" id = "${answer}" value = "${item.a.indexOf(answer)}">
+                    <label for="${answer}" class = "${item.type === "radio" ? "radio-button": "check-button"}">
+                    ${answer}
+                    </label>
+                    `
+                )    
+            });    
         }
 
 
@@ -175,6 +189,55 @@ $(document).ready(function(){
             `
         )
     });
+
+    $.getJSON("/api/currentUser/settings", function(data) {
+        console.log("User Info");
+        console.log(data);
+        console.log("=/=/=/=/=/=/=/=/=/=/");
+
+        $("input[type = text], input[type = number]").each(function(index) {
+            $(`input[name = ${$(this).attr("name")}]`).attr("placeholder", data[$(this).attr("name")])
+        });
+
+        $("select").each(function(index) {
+            $(`select[name = ${$(this).attr("name")}]`).val(data[$(this).attr("name")]);
+           
+        });
+
+        $("input[type = checkbox], input[type = radio]").each(function(index) {
+
+            if ($(this).attr("type") === "radio" && $(this).attr("value") === data[$(this).attr("name")]) {
+                $(this).attr("checked", "true");
+            } 
+
+            else if ($(this).attr("name") === "prolife") {
+                let map = {
+                    true: "true",
+                    false: "false"
+                }
+                console.log(data.prolife);
+
+                if ($(this).attr("value") == map[data.prolife]){
+                    $(this).attr("checked", "true");
+                }
+            }
+
+            else if ($(this).attr("type") === "checkbox") {
+                data[$(this).attr("name")].forEach(item => {
+           
+
+                    if ($(this).attr("value") === item) {
+                        $(this).attr("checked", "true");
+                    }
+                })
+            }
+        });
+
+        $("input[type = range]").each(function(item) {
+            $(this).attr("value", data[$(this).attr("name")]);
+        })
+
+    })
 
     // Gender Role Selector Functionality
     
@@ -207,7 +270,7 @@ $(document).ready(function(){
         $("main div input, select").each(function(index) {
             if ($(this).attr("type") === "radio") {
                 if ($(this).is(":checked")) {
-                    userInfo[$(this).attr("name")]= $(this).val();
+                    userInfo[$(this).attr("name")] = $(this).val();
                 }
             }
 

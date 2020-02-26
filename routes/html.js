@@ -1,21 +1,48 @@
 module.exports = function(app) {
     app.get("/", function(req, res) {
-        res.render("landing", {session: req.session});
+        if (req.session.userId) {
+            res.render("dashboard", {session: req.session});
+        }
+        else {
+            res.render("landing");
+        }
     });
 
-    app.get("/bio", function(req, res) {
-        res.render("bio");
+    app.get("/bio/:user", function(req, res) {
+        if (req.session.userId) {
+            res.render("bio", {session: req.session});
+        }
+        else {
+            res.render("landing");
+        }
     });
 
     app.get("/dash", function(req, res) {
-        res.render("dashboard", {session: req.session});
+        if (req.session.userId) {
+            res.render("dashboard", {session: req.session});
+        }
+
+        else {
+            res.render("landing")
+        }
     })
 
     app.get("/users/:username", function(req, res) {
-        res.render("profile", {session: req.session})
+        if (req.session.userId) {
+            res.render("profile", {session: req.session})
+        }
+
+        else {
+            res.render("landing");
+        }
+
+    });
+
+    app.get("/settings", function(req, res) {
+        res.render(req.session.userId ? "settings" : "landing");
     })
 
     app.get("*", function(req, res) {
-        res.render("landing", {session: req.session});
+        res.render("landing");
     });
 }

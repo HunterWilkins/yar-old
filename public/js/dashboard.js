@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+  
     let user;
 
     let matches = {
@@ -8,32 +8,31 @@ $(document).ready(function() {
         basic: [] 
     }
 
-    $.getJSON("/api/currentUser", function(data) {
-        
+    $.getJSON("/api/currentUser/dash", function(data) {
         user = data;
-        console.log(user);
+        console.log(data);
         $("aside").append(
             `
             <p>${capitalize(user.race)}</p>
             <p>Age: ${user.age}</p>
             <p>${capitalize(user.religion)}</p>
             <p>${user.politics === "right" || "left" ? capitalize(user.politics) + " Wing": "Moderate"}</p>
-            <p></p>
             `
         );
-    });
-    
-    $.ajax({
-        method: "POST",
-        url: "/api/users/all",
-        success: function(data) {
-        console.log(data);
 
-        data.forEach(item => {
-            matchmaker(item);  
-        });
-        },
+        $.ajax({
+            method: "POST",
+            url: "/api/users/all",
+            data: data,
+            success: function(results) {
+            console.log(results);
     
+            results.forEach(item => {
+                matchmaker(item);  
+            });
+            },
+        
+        });
     });
 
     $("section").on("click", ".result", function() {
@@ -92,6 +91,22 @@ $(document).ready(function() {
 
     });
 
+    $("#custom-match").on("change", function() {
+        $.ajax({
+            method: "POST",
+            url: "/api/users/" + $(this).val(),
+            data: {
+                gender: user.gender,
+                prolife: user.prolife,
+                filterField: $(this).val(),
+                filter: user[$(this).val()]
+            },
+            success: function(data) {
+                console.log(data);
+            }
+        })
+    })
+
     function refreshMessages(match) {
         console.log(match);
          $.ajax({
@@ -128,133 +143,6 @@ $(document).ready(function() {
         })
     }
 
-    $("#custom-match").on("change", function() {
-        $.ajax({
-            method: "POST",
-            url: "/api/users/" + $(this).val(),
-            data: {
-                filter: user[$(this).val()]
-            },
-            success: function(data) {
-                console.log(data);
-            }
-        })
-    })
-
-    // function fullScreen(data) {
-
-    //     console.log(data.biology.username);
-
-    //     refreshMessages(data.biology)
-
-    //     let descriptions = {
-    //         babies : "",
-    //         priority: "My main priority at the moment is " + data.answers.priority.toLowerCase(),
-    //         sexy: "I'd wear " + data.answers.sexy.toLowerCase() + " to show off my goods.",
-    //         leisure: data.answers.leisure !== "Trick Question: I'd stay home." ? "My Ideal Date location: " + data.answers.leisure : "I like to stay home in my spare time."
-    //     }
-
-    //     let roleDescription = [
-    //         "Submissive",
-    //         "Moderately Submissive",
-    //         "Moderate Gender Role",
-    //         "Moderately Dominant",
-    //         "Dominant"
-    //     ]
-
-    //     if (data.answers.babies > 10) {
-    //         descriptions.babies = "I want SOOO MANY BABIES! More than 10 at least!";
-    //     }
-
-    //     else if (data.answers.babies === 0) {
-    //         descriptions.babies = "I don't want any children.";
-    //     }
-
-    //     else {
-    //         descriptions.babies = "I want about " + data.answers.babies + " babies."
-    //     }
-
-    //     let rolestest = [
-    //         0,1,2,3,4
-    //     ]
-
-    //     let desiredRole = Math.abs(data.personality.role - 4);
-        
-    //     for (x in data.biology) {
-    //         if (x !== "image") {
-    //             if (user[x] === data.biology[x] && x !== "name" && x !== "gender" && x !== "username") {
-    //                 $("#" + x).attr("class", "matched-item");
-    //             }
-                
-    //             $("#" + x).text( typeof data.biology[x] === "string" ? capitalize(data.biology[x]) : data.biology[x]);
-    //         }
-
-    //         else {
-    //             $("#image").append(`<img src = "${data.biology[x]}"></img>`)
-    //         }
-    //     }
-
-    //     for (x in data.personality) {
-    //         if (x !== "role" && x !== "politics") {
-    //             $("#" + x).append(
-    //                 `
-    //                 <p ${user[x] === data.personality[x] ? "class = 'matched-item'":"" }>${capitalize(data.personality[x])}</p>
-    //                 ` 
-    //             );    
-    //         }
-
-    //         else if (x === "politics") {
-    //             $("#" + x).append(
-    //                 `
-    //                 <p ${user[x] === data.personality[x] ? "class = 'matched-item'":"" }>${ data.personality[x] === "moderate" ? "Moderate Politics": capitalize(data.personality[x]) + " Wing"}</p>
-    //                 ` 
-    //             );    
-    //         }
-
-    //         else {
-    //             $("#" + x).append(
-    //                 `
-    //                 <p ${user[x] === desiredRole ? "class = 'matched-item'":"" }>${roleDescription[data.personality.role]}</p>
-    //                 ` 
-    //             );
-    //         }
-    //     }
-
-    //     for (x in data.answers) {
-    //         if (typeof data.answers[x] === "object") {
-    //             if (x === "interests") {
-    //                 if (data.answers.interests.length === 1) {
-    //                     populate("#answers", "p", `I'm interested in ${data.answers.interests[0]}!`);
-    //                 }
-    //                 else {
-    //                     // data.answers.interests.splice(data.answers.interests.length-1, 0, "and");
-    //                     let firstInterests = data.answers.interests.slice(0, data.answers.interests.length-1).join(", ");
-    //                     let finalInterest = data.answers.interests[data.answers.interests.length-1];
-
-    //                     console.log(firstInterests);
-    //                     console.log(finalInterest);
-                        
-    //                     populate("#answers", "p", `I'm interested in ${firstInterests}, and ${finalInterest}! <br><br>`);
-    //                 }
-    //             }
-                
-               
-    //         }
-
-    //         else {
-    //             $("#answers").append(
-    //                 `
-    //                 <p ${user[x] === data.answers[x] ? "class = 'matched-item'" : ""}>${descriptions[x]}</p>
-    //                 <br>
-    //                 `
-    //             )
-    //         }
-    //     }
-
-    //     $("#full-view").css({"display": "block"});
-      
-    // }
-
     function capitalize(string) {
         return string.slice(0)[0].toUpperCase() + string.slice(1);
     }
@@ -265,7 +153,6 @@ $(document).ready(function() {
             "age",
             "religion",
             "outgoing",
-            "prolife",
             "politics",
             "role",
             "babies"

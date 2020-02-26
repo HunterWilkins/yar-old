@@ -1,6 +1,39 @@
 main {
     background: var(--layer0);
     padding: 10px;
+    right: 150px;
+}
+
+aside {
+    width: 150px;
+    padding: 5px;
+    position: fixed;
+    top: var(--navHeight);
+    bottom: 0;
+    right: 0;
+    text-align:center;
+    background: var(--layer2);
+}
+
+aside input {
+    border: none;
+    padding: 5px;
+    background: var(--layer0);
+    color: white;
+    max-width: 100%;
+    margin-bottom: 5px;
+}
+
+
+section {
+    height: 275px;
+    overflow-x: scroll;
+    white-space: nowrap;
+    overflow-y: hidden;
+}
+
+section div {
+    white-space: normal;
 }
 
 #full-view {
@@ -21,6 +54,8 @@ main {
 .result {
     cursor: pointer;
     position: relative;
+    transform: translateY(-50%);
+    top: 50%;
     display: inline-block;
     width: 175px;
     height: 250px;

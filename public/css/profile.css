@@ -4,27 +4,48 @@ figure {
     position: relative;
 }
 
-
-
 #ratings {
     position: absolute;
     top: 0px;
     left: 250px;
-    height: 200px;
     right: 10px;
-    padding: 15px;
+    height: 200px;
+    padding: 5px;
     border-radius: 15px;
 }
 
 #stars, #flags {
+    cursor: pointer;
     display: inline-block;
+    position: relative;
     background: var(--layer3);
-    padding: 15px;
+    padding: 13px;
     width: 45%;
     height: 100%;
-    vertical-align:middle;
-    
-    box-shadow: 0 5px 5px rgb(11, 8, 26);
+    vertical-align:top;
+    overflow-y: hidden;
+    border: var(--layer3) solid 2px;
+    box-shadow: 0 5px 5px var(--layer0);
+    z-index: 10;
+    transition: .15s;
+}
+
+#stars:hover {
+    border: var(--highlight) solid 2px;
+}
+
+#flags:hover {
+    border: var(--layer4) solid 2px;
+}
+
+.haze {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(rgba(45,45,45,0), var(--layer3));
 }
 
 #flags ul {

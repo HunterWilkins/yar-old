@@ -1,4 +1,14 @@
 <link rel="stylesheet" href="/css/dash.css">
+
+ <aside>
+    {{#if session.userId}}
+    <h2>{{session.username}}</h2>
+    <a class = "navbuttons" href="/bio/{{session.username}}">Settings</a>
+    {{else}}
+    <h2>User</h2>
+    {{/if}}
+</aside>
+
 <h2>Ideal Matches!</h2>
 <section id = "ideal-matches">
 

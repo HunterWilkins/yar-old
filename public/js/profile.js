@@ -93,6 +93,18 @@ $(document).ready(function() {
         $(this).attr("class", "active tab");
     });
 
+    $("#flags, #stars").hover(function(){
+        console.log($(this).attr("id"));
+        if (document.querySelector("#" + $(this).attr("id")).scrollHeight > 200) {
+            $(this).animate({
+                height: document.querySelector("#" + $(this).attr("id")).scrollHeight + 15 + "px"
+            }, 0);    
+        }
+    }, function() {
+        $(this).animate({
+            height: "100%"
+        }, 0);
+    })
     $.getJSON("/api/currentUser", function(data) {
         user = data;
         console.log(user);

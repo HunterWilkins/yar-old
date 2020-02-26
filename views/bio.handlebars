@@ -10,14 +10,18 @@
             <input name = "age" type="number" placeholder = "Age" min = "18" max = "70">
 
             <br>
+            {{#if session.username}}
+            <br>
+            <p>Cannot Change Gender, Race, or Height</p>
+            <br>
+            {{else}}
             <input type="radio" id = "male" name = "gender" value = "male">
             <label class = "radio-button" for="male">Male</label>
 
             <input type="radio" id = "female" name = "gender" value = "female">
             <label class = "radio-button" for="female">Female</label>
             <br>
-
-            <select name="race">
+                       <select name="race">
                 <option disabled selected>Race</option>
                 <option value="white">White</option>
                 <option value="black">Black</option>
@@ -29,6 +33,9 @@
             </select>
 
             <input type="text" name = "height" placeholder = "Height x'y&#8221">
+            {{/if}}
+
+ 
             <input type="number" name = "weight" placeholder = "Weight lbs" min = "90" max = "400">
 
             {{!-- <input type="text" name = "mixed-race" placeholder = "Mother's Race / Father's Race"> --}}

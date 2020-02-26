@@ -2,14 +2,14 @@ let db = require("../models");
 
 module.exports = function(app) {
 
-    app.get("/api/currentUser", function(req, res) {
+    app.get("/api/currentUser/:settings", function(req, res) {
         db.User.findOne({
-            username: req.session.username,
             id: req.session.userId
         }).then(function(dbUser){
             let results = {
                 username: dbUser.username,
                 name: dbUser.name,
+                gender: dbUser.gender,
                 age: dbUser.age,
                 race: dbUser.race,
                 religion: dbUser.religion,
@@ -22,37 +22,59 @@ module.exports = function(app) {
                 leisure: dbUser.leisure,
                 priority: dbUser.priority,
                 priorities: dbUser.priorities,
-                sexy: dbUser.sexy
+                sexy: dbUser.sexy,
+                image: dbUser.image
+            }
+            if (req.params.settings === "settings") {
+                results.password = dbUser.password;
+                results.height = dbUser.height;
+                results.weight = dbUser.weight;
+                results.termination = dbUser.termination;
+                results.confrontation = dbUser.confrontation;
             }
             res.json(results);
+            
         }).catch(err => res.json(err));
     });
 
     app.post("/api/users/:filter", function(req, res) {
-        db.User.findOne({
-            id: req.session.userId
-        }).then(function(dbUser) {
-            console.log(dbUser);
-            if (req.params.filter === "all") {
-                db.User.find({
-                    gender: dbUser.gender === "male" ? "female" : "male",
-                    prolife: dbUser.prolife === true ? true : false
-                }).then(function(dbResults) {
-                    res.json(dbResults);
-                });    
-            }
+        console.log(req.body);
+        let filterObj = {
+            gender: req.body.gender === "male" ? "female" : "male",
+            prolife: req.body.prolife == "true" ? "true" : "false", 
+        }
 
-            else {
-                db.User.find({
-                    gender: dbUser.gender === "male" ? "female" : "male",
-                    prolife: dbUser.prolife === true ? true : false,
-                    [req.params.filter] : req.body.filter
-                }).then(function(dbResults) {
-                    res.json(dbResults);
-                }).catch(err => res.json(err));
-            }
+        if (req.params.filter !== "all") {
+            filterObj[req.body.filterField] = req.body.filter; 
+        }
+        
+        console.log(filterObj);
+
+        db.User.find(filterObj).then(function(matches) {
+            console.log(matches);
+            let results = [];
             
-        }).catch(err => console.log(err));
+            matches.forEach(item => {
+                let relevantInfo = {
+                    username: item.username,
+                    name: item.name,
+                    age: item.age,
+                    religion: item.religion,
+                    politics: item.politics,
+                    role: item.role,
+                    image: item.image,
+                    height: item.height,
+                    weight: item.weight,
+                    babies: item.babies,
+                    race: item.race,
+                    outgoing: item.outgoing
+                }
+
+                results.push(relevantInfo);
+            })
+          
+            res.json(results);
+        }).catch(err => res.json(err));
     });
 
     app.get("/api/user/:username", function(req, res) {
@@ -93,10 +115,22 @@ module.exports = function(app) {
 
                 flags: dbUser.flags,
                 stars: dbUser.stars
-                
             };
             res.json(matchInfo);
         }).catch(err => res.json(err));
+    });
+
+    app.get("/api/matchmaker", function(req, res) {
+        db.User.findOne({
+            username: req.session.username
+        }).then(function(user) {
+            db.User.find({
+                gender: user.gender === "male" ? "female" : "male",
+                prolife: user.prolife === true ? true : false
+            }).then(function(matches) {
+
+            })
+        })
     })
 
     app.post("/api/signup", function(req, res) {
@@ -153,8 +187,8 @@ module.exports = function(app) {
         }).then(function(dbUser) {
             console.log(dbUser);
             if (dbUser) {
-                req.session.userId = dbUser.id;
                 req.session.username = dbUser.username;
+                req.session.userId = dbUser.id;
                 console.log("Successfully Logged In");
                 res.json(dbUser);
             }
