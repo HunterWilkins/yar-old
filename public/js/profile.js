@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     let user;
+    let match;
 
     let flags = [
         "Polygamous",
@@ -57,7 +58,23 @@ $(document).ready(function() {
 
             `
         )
-    })
+    });
+
+    $.getJSON("/api/currentUser/info", function(data) {
+        user = data;
+        console.log(user);
+
+        $.ajax({
+            method: "GET",
+            url: "/api/user/" + window.location.pathname.split("/")[2] + "",
+            success: function(userData) {
+                match = userData;
+                refreshMessages(match);
+                console.log(userData);
+                populate(userData);
+            }
+        });
+    });
 
     $("select[name=redFlags]").on("change", function() {
         if ($(this).val() === "Dishonest...") {
@@ -94,7 +111,6 @@ $(document).ready(function() {
     });
 
     $("#flags, #stars").hover(function(){
-        console.log($(this).attr("id"));
         if (document.querySelector("#" + $(this).attr("id")).scrollHeight > 200) {
             $(this).animate({
                 height: document.querySelector("#" + $(this).attr("id")).scrollHeight + 15 + "px"
@@ -104,19 +120,41 @@ $(document).ready(function() {
         $(this).animate({
             height: "100%"
         }, 0);
-    })
-    $.getJSON("/api/currentUser", function(data) {
-        user = data;
-        console.log(user);
     });
 
-    $.ajax({
-        method: "GET",
-        url: "/api/user/" + window.location.pathname.split("/")[2] + "",
-        success: function(data) {
-            console.log(data);
-            populate(data);
-        }
+    $("#messaging button").on("click", function() {
+        $.ajax({
+            method: "PUT",
+            url: "/api/message",
+            data: {
+                recipient: {
+                    username: $("#username").text(),
+                    name: $("#name").text(),
+                },
+                author: {
+                    username: user.username,
+                    name: user.name
+                },
+                text: $("#messaging textarea").val()
+            },
+            success: function() {
+                let scrollHeight = document.querySelector("#messaging article").scrollHeight;
+                console.log(scrollHeight);
+                $("#messaging article").animate({
+                    scrollTop: scrollHeight
+                }, 1000);
+            }
+        });
+
+        $("#messaging article").append(
+            `
+            <p class = "user-me">${user.username}</p>
+            <p class = "user-me">${$("#messaging textarea").val()}</p>
+            `
+        );
+
+        $("#messaging textarea").val("");
+
     });
 
     function populate(data) {
@@ -161,8 +199,15 @@ $(document).ready(function() {
                     else {
                         switch(y) {
                             case "name":
-                            $("#name").text(data[x][y]);
-                            break;
+                                $("#name").text(data[x][y]);
+                                break;
+                            case "age":
+                                $("#" + x).append(
+                                    `
+                                    <p ${Math.abs(data[x][y] - user.age) < 3 ? "class = 'matched'": ""}>${data[x][y]} years old</p>
+                                    `
+                                );
+                                break;
                             case "username":
                                 $("#username").text(data[x][y]);
                                 break;
@@ -172,6 +217,15 @@ $(document).ready(function() {
                             
                             case "weight":
                                 specificText = data[x][y] + "lbs";
+                                break;
+                            case "confrontation":
+                                let description = [
+                                    "Upfront with Confrontation",
+                                    "Midway with Confrontation",
+                                    "Non-Confrontational"
+                                ]
+
+                                specificText = description[data[x][y]];
                                 break;
     
                             case "babies":
@@ -215,6 +269,27 @@ $(document).ready(function() {
                                     `
                                 );
                                 break;
+                            case "height":
+                                let idealHeight = false;
+                                if (data.biology.gender === "female") {
+                        
+                                    if (parseInt(data.biology.height.split("\'")[0]) < parseInt(user.height.split("\'")[0])) {
+                                        idealHeight = true;
+                                    }
+
+                                    else if (parseInt(data.biology.height.split("\'")[0]) === parseInt(user.height.split("\'")[0]) && parseInt(data.biology.height.split("\'")[1]) < parseInt(user.height.split("\'")[1])) {
+                                        idealHeight = true;
+                                    }
+                                }
+
+                                $("#" + x).append(
+                                    `
+                                    <p ${idealHeight === true ? "class = 'matched'" : ""} id = "${y}">${data.biology.height}</p>
+                   
+                                    `
+                                );
+
+                                break;
                             case "religion":
                                 switch(data[x][y]) {
                                     case "christianity":
@@ -247,16 +322,29 @@ $(document).ready(function() {
                                 specificText = "My current top priority is " + data[x][y];
                                 break;
                             case "sexy":
+                                let sexyChart = {
+                                    "A V-Neck": "Chest",
+                                    "A Tank Top": "Arms",
+                                    "A Crop Top": "Belly",
+                                    "Tight/Short Pants": "Buttocks",
+                                    "A Flannel Overshirt w/ White Undershirt" : "Face",
+                                    "Nothing (not recommended)": "All of the Above"
+                                }
+
                                 specificText = "If I wanted to show off my goooooods, I'd wear " + (data[x][y] !== "Nothing (not recommended)" ? data[x][y].toLowerCase() : " absolutely nothing. ;)");
+                                $("#" + x).append(
+                                    `
+                                    <p ${sexyChart[data[x][y]] === user.attraction ? "class = 'matched'": ""}>${specificText}</p>
+                                    `
+                                );
                                 break;
                             default:
                                 specificText = data[x][y];
                                 break;
-    
                         }
                     }
     
-                    if (y !== "role" && y !== "image" && y !== "name" && y !== "username" && y !== "flags") {
+                    if (y !== "role" && y !== "sexy" &&  y !== "age" && y !== "height" && y !== "image" && y !== "name" && y !== "username" && y !== "flags") {
                     $("#" + x).append(
                         `
                         <p ${user[y] === data[x][y] ? "class = 'matched'" : ""} id = "${y}">${typeof specificText !== "number" && specificText !== undefined ? capitalize(specificText) : specificText}</p>
@@ -273,10 +361,58 @@ $(document).ready(function() {
     }
 
     function capitalize(string) {
-        return string.slice(0)[0].toUpperCase() + string.slice(1);
+
+        if (string !== undefined && string !== "undefined" && string.length !== 0) {
+            if (typeof string === "string") {
+                return string.slice(0)[0].toUpperCase() + string.slice(1);
+            }
+            else {
+                return string
+            }
+        }
+
+        else {
+            console.log("Undefined Variable");
+        }
     }
 
     function flag() {
 
+    }
+
+    function refreshMessages(match) {
+        console.log(match);
+         $.ajax({
+            url: "/api/messages",
+            method: "POST",
+            data: {
+                recipient: {
+                    username: match.biology.username,
+                    name: match.biology.name
+                },
+                author: {
+                    username: user.username,
+                    name: user.name
+                }
+            },
+            success: function(data) {
+                console.log(data);
+                data.messages.forEach(item => {
+                    $("#messaging article").append(
+                        `
+                        <p class = ${item.p === user.username ? "user-me" : "user-other"}><strong>${item.p}</strong></p>
+                        <p class = ${item.p === user.username ? "user-me" : "user-other"}>${item.text}</p>
+                        <br>
+                        `
+                    )
+                },)
+
+                let scrollHeight = document.querySelector("#messaging article").scrollHeight;
+                console.log(scrollHeight);
+                $("#messaging article").animate({
+                    scrollTop: scrollHeight
+                }, 0);
+            }
+        })
     }
 });

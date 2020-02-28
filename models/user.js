@@ -43,6 +43,10 @@ let UserSchema = new Schema ({
     outgoing: {
         type: String,
     },
+    
+    confrontation: {
+        type: String
+    },
 
     prolife: {
         type: Boolean,
@@ -69,6 +73,10 @@ let UserSchema = new Schema ({
     },
     
     sexy: {
+        type: String
+    },
+
+    attraction: {
         type: String
     },
 

@@ -56,41 +56,6 @@ $(document).ready(function() {
         $("#messages").empty();
     });
 
-    $("#messages button").on("click", function() {
-        $.ajax({
-            method: "PUT",
-            url: "/api/message",
-            data: {
-                recipient: {
-                    username: $("#username").text(),
-                    name: $("#name").text(),
-                },
-                author: {
-                    username: user.username,
-                    name: user.name
-                },
-                text: $("#messages textarea").val()
-            },
-            success: function() {
-                let scrollHeight = document.querySelector("#messages section").scrollHeight;
-                console.log(scrollHeight);
-                $("#messages section").animate({
-                    scrollTop: scrollHeight
-                }, 1000);
-            }
-        });
-
-        $("#messages section").append(
-            `
-            <p class = "user-me">${user.username}</p>
-            <p class = "user-me">${$("#messages textarea").val()}</p>
-            `
-        );
-
-        $("#messages textarea").val("");
-
-    });
-
     $("#custom-match").on("change", function() {
         $.ajax({
             method: "POST",

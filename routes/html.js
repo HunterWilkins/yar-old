@@ -13,7 +13,7 @@ module.exports = function(app) {
             res.render("bio", {session: req.session});
         }
         else {
-            res.render("landing");
+            res.render("bio");
         }
     });
 

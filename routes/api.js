@@ -22,15 +22,17 @@ module.exports = function(app) {
                 leisure: dbUser.leisure,
                 priority: dbUser.priority,
                 priorities: dbUser.priorities,
+                attraction: dbUser.attraction,
                 sexy: dbUser.sexy,
-                image: dbUser.image
+                image: dbUser.image,
+                height : dbUser.height,
+                weight : dbUser.weight,
+                termination : dbUser.termination,
+                confrontation : dbUser.confrontation,
             }
             if (req.params.settings === "settings") {
                 results.password = dbUser.password;
-                results.height = dbUser.height;
-                results.weight = dbUser.weight;
-                results.termination = dbUser.termination;
-                results.confrontation = dbUser.confrontation;
+         
             }
             res.json(results);
             
@@ -134,7 +136,6 @@ module.exports = function(app) {
     })
 
     app.post("/api/signup", function(req, res) {
-        console.log(req.body);
         const alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
         let randomAlpha = "";
         for(var i = 0; i < 30; i++) {
@@ -177,7 +178,7 @@ module.exports = function(app) {
                 res.json(dbChat);
             }
         }).catch(err => res.json(err));
-    })
+    });
 
     app.post("/api/signin", function(req, res) {
         console.log(req.body);
@@ -205,9 +206,10 @@ module.exports = function(app) {
     })
 
     app.put("/api/user/update", function(req, res) {
+        console.log(req.body);
         db.User.findOneAndUpdate({
-            id : req.body.id 
-        }, {[req.body.field] : req.body.value}).then(function(dbUser) {
+            id : req.session.userId 
+        }, req.body, {useFindAndModify: false}).then(function(dbUser) {
             res.json(dbUser);
         }).catch(err => console.log(err));
     });

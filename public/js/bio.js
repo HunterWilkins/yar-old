@@ -88,6 +88,21 @@ $(document).ready(function(){
             type: "checkbox"
         },
         {
+            q: "Which of the following are you most attracted to?",
+            a: [
+                "Chest",
+                "Legs",
+                "Buttocks",
+                "Face",
+                "Belly",
+                "Arms",
+                "All of the Above",
+                "None of the Above"
+            ],
+            name: "attraction",
+            type: "radio"
+        },
+        {
             q: "Is it better to be non-confrontational in a minor argument?",
             a: [
                 "No. Communication is important. Nothing will get fixed if you're not willing to confront the issue.",
@@ -196,12 +211,11 @@ $(document).ready(function(){
         console.log("=/=/=/=/=/=/=/=/=/=/");
 
         $("input[type = text], input[type = number]").each(function(index) {
-            $(`input[name = ${$(this).attr("name")}]`).attr("placeholder", data[$(this).attr("name")])
+            $(`input[name = ${$(this).attr("name")}]`).attr("value", data[$(this).attr("name")])
         });
 
         $("select").each(function(index) {
             $(`select[name = ${$(this).attr("name")}]`).val(data[$(this).attr("name")]);
-           
         });
 
         $("input[type = checkbox], input[type = radio]").each(function(index) {
@@ -258,14 +272,9 @@ $(document).ready(function(){
 
                 $("#question-box #babies-desc").text(desc);
                         
-                    }
-                });
-
+            }
+        });
     })
-
-    // Gender Role Selector Functionality
-    
-    // =/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/
 
     $("select[name=race]").on("change", function() {
         if ($(this).val() === "mixed") {
@@ -310,11 +319,17 @@ $(document).ready(function(){
             }
         });
 
+        console.log(window.location.pathname.split("/")[2]);
+
         $.ajax({
-            url: "/api/signup",
-            method: "POST",
+            url: window.location.pathname.split("/")[2] !== "new" ? "/api/user/update" : "/api/signup",
+            method: window.location.pathname.split("/")[2] !== "new" ? "PUT" : "POST",
             data: userInfo,
             success: function(data) {
+                if (window.location.pathname.split("/")[2] !== "new") {
+                    alert("Information Successfully Updated!");
+                }
+
                 window.location.replace("/dash")
             }
         })

@@ -199,10 +199,61 @@ section p {
 
 #messaging {
     position: absolute;
-    padding: 15px;
     left: 520px;
     top: 200px;
     bottom: 50px;
     right: 0px;
     background: var(--layer0);
+}
+
+#messaging h2, #messaging article, #messaging textarea {
+    padding: 15px;
+}
+
+#messaging textarea {
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    bottom: 50px;
+    width: 90%;
+    height: 80px;
+    background: var(--layer0);
+    border: none;
+    color: var(--text-color);
+    border-right: var(--text-color) dashed 2px;
+    border-left: var(--text-color) dashed 2px;
+    resize: none;
+}
+
+#messaging article {
+    text-align: center;
+    height: 200px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+#messaging button {
+    position: absolute;
+    bottom: 15px;
+    transform: translateX(-50%);
+    left: 50%;
+
+    background: var(--layer3);
+    padding: 5px 10px;
+    color: var(--highlight);
+    border: var(--highlight) solid 1px;
+    border-radius: 15px;
+}
+
+.user-me {
+    background: var(--layer2);
+    padding: 5px;
+    width: 100%;
+    text-align: right;
+}
+
+.user-other {
+    text-align: left;
+    width: 100%;
+    font-style: italic;
 }
