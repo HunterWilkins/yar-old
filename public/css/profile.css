@@ -226,7 +226,6 @@ section p {
 }
 
 #messaging article {
-    text-align: center;
     height: 200px;
     overflow-y: auto;
     width: 100%;
@@ -245,15 +244,16 @@ section p {
     border-radius: 15px;
 }
 
-.user-me {
-    background: var(--layer2);
+.user-me, .user-other {
     padding: 5px;
     width: 100%;
-    text-align: right;
+   
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.2em;
 }
 
-.user-other {
-    text-align: left;
-    width: 100%;
-    font-style: italic;
+.user-me {
+    background: var(--layer2);
+    text-align: right;
 }
