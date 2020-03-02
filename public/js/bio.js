@@ -33,6 +33,11 @@ $(document).ready(function(){
 
     let questions = [
         {
+            q: "What's your location?",
+            a: ["State", "City"],
+            type: "text"
+        },
+        {
             q: "Precisely how many children do you want to have?",
             a: [0],
             min: 0,
@@ -162,6 +167,16 @@ $(document).ready(function(){
                 <p id = "babies-desc">None</p>
                 `
             )
+        }
+
+        else if (item.type === "text") {
+            item.a.forEach(answer => {
+                $("#question-box").append(
+                    `
+                    <input type = "text" name = "${answer.toLowerCase()}" placeholder = "${answer === "State" ? "State (ex: TX)" : answer}"></input>
+                    `
+                )    
+            })
         }
 
         else if (item.name !== "confrontation"){

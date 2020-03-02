@@ -108,6 +108,14 @@ let UserSchema = new Schema ({
         type: Array
     },
 
+    state: {
+        type: String
+    },
+
+    city: {
+        type: String
+    },
+
     id: {
         type: String,
         unique: true

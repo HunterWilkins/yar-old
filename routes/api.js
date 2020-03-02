@@ -28,6 +28,8 @@ module.exports = function(app) {
                 height : dbUser.height,
                 weight : dbUser.weight,
                 termination : dbUser.termination,
+                city: dbUser.city,
+                state: dbUser.state,
                 confrontation : dbUser.confrontation,
             }
             if (req.params.settings === "settings") {

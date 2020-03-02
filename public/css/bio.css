@@ -25,7 +25,7 @@ main {
     overflow-x: hidden;
 }
 
-#biology, #personality, #interests {
+#biology, #personality, #interests, #location {
     display: inline-block;
 }
 
