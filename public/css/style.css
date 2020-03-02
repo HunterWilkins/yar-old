@@ -135,6 +135,40 @@ nav > * {
     border-top-right-radius: 15px;
 }
 
+input[type=radio], input[type=checkbox] {
+    display: block;
+    margin: 5px;
+    opacity:0;
+    position: absolute;
+    width: 0;
+}
+
+.radio-button, .check-button {
+    cursor: pointer;
+    display: inline-block;
+    margin: 5px 0px;
+    background: var(--layer0);
+    padding: 5px 10px;
+    border: 1.5px solid var(--layer3);
+    border-radius: 4px;
+    transition: .15s;
+}
+
+.radio-button:hover {
+    background: var(--layer3);
+}
+
+input[type=radio]:checked + .radio-button {
+    background: var(--layer4);
+    color: white;
+    /* border: 1.5px solid white; */
+}
+
+input[type=checkbox]:checked + .check-button {
+    background: var(--layer4);
+    color: white;
+}
+
 .bottom, .left, .right, .top {
     position: absolute;
 }

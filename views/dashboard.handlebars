@@ -3,10 +3,22 @@
  <aside>
     {{#if session.userId}}
     <h2>{{session.username}}</h2>
+    <div id="user-info"></div>
     <a class = "navbuttons" href="/bio/{{session.username}}">Settings</a>
     {{else}}
     <h2>User</h2>
     {{/if}}
+
+    <input type="radio" name="filters" id="ideal" value = "ideal" checked = "true">
+    <label class = "radio-button" for="ideal">Ideal</label>
+
+    <input type="radio" name="filters" id="secondary" value = "secondary">
+    <label class = "radio-button" for="secondary">Secondary</label>
+    
+    <input type="radio" name="filters" id="tertiary" value = "tertiary">
+    <label class = "radio-button" for="tertiary">Tertiary</label>
+
+
 </aside>
 
 <h2>Ideal Matches!</h2>

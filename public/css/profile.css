@@ -86,10 +86,11 @@ main {
 }
 
 #info {
-    position: relative;
+    position: absolute;
     width: 500px;
-    height: initial;
-    background: var(--layer0);
+    bottom: 10px;
+    top: 255px;
+    /* background: var(--layer0); */
     z-index: 4;
 }
 
@@ -100,6 +101,8 @@ section {
     left: 0;
     width: 100%;
     background: var(--layer0);
+    max-height: 100%;
+    overflow-y: auto;
 }
 
 .tabgroup {
@@ -201,7 +204,7 @@ section p {
     position: absolute;
     left: 520px;
     top: 200px;
-    bottom: 50px;
+    bottom: 10px;
     right: 0px;
     background: var(--layer0);
 }

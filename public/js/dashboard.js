@@ -11,7 +11,7 @@ $(document).ready(function() {
     $.getJSON("/api/currentUser/dash", function(data) {
         user = data;
         console.log(data);
-        $("aside").append(
+        $("#user-info").append(
             `
             <p>${capitalize(user.race)}</p>
             <p>Age: ${user.age}</p>
@@ -20,18 +20,12 @@ $(document).ready(function() {
             `
         );
 
-        $.ajax({
-            method: "POST",
-            url: "/api/users/all",
-            data: data,
-            success: function(results) {
+        $.getJSON("/api/matchmaker/ideal", function(results) {
             console.log(results);
     
             results.forEach(item => {
                 matchmaker(item);  
             });
-            },
-        
         });
     });
 
@@ -69,6 +63,18 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
             }
+        })
+    });
+
+    $("aside input[type=radio]").on("input", function(){
+        console.log($(this).val());
+        $.getJSON("/api/matchmaker/" + $(this).val(), function(data) {
+            $("section").each(function(){
+                $(this).empty();
+            })
+            data.forEach(item => {
+                matchmaker(item);
+            })
         })
     })
 
@@ -120,7 +126,8 @@ $(document).ready(function() {
             "outgoing",
             "politics",
             "role",
-            "babies"
+            "babies",
+            "state"
         ];
         
         let similarities = 0;
@@ -141,6 +148,7 @@ $(document).ready(function() {
             4: "Dominant"
         }
 
+        let religionDesc;
         let babiesDesc;
 
         criteria.forEach(item => {
@@ -178,13 +186,40 @@ $(document).ready(function() {
         
         switch(match.babies) {
             case 0:
-                babiesDesc = "no children."
+                babiesDesc = "No children."
                 break;
             case 11: 
                 babiesDesc = "TONS of babies! More than ten, at least!"
                 break;
             default: 
                 babiesDesc = match.babies + " babies.";
+        }
+
+        switch(match.religion) {
+            case "christianity":
+                religionDesc = "Christian";
+                break;
+            case "judaism":
+                religionDesc = "Jew";
+                break;
+            case "islam":
+                religionDesc = "Muslim";
+                break;
+            case "agnosticism":
+                religionDesc = "Agnostic";
+                break;
+            case "atheism":
+                religionDesc = "Atheist";
+                break;
+            case "hinduism":
+                religionDesc = "Hindu";
+                break;
+            case "buddhism":
+                religionDesc = "Buddhist";
+                break;
+            default:
+                religionDesc = capitalize(match.religion);
+                break;
         }
 
         $(target).append(

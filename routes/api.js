@@ -71,14 +71,113 @@ module.exports = function(app) {
                     weight: item.weight,
                     babies: item.babies,
                     race: item.race,
-                    outgoing: item.outgoing
+                    outgoing: item.outgoing,
+                    state: item.state,
+                    city: item.city
                 }
 
                 results.push(relevantInfo);
-            })
+            });
           
             res.json(results);
         }).catch(err => res.json(err));
+    });
+
+    app.get("/api/matchmaker/:filter", function(req, res) {
+        db.User.findOne({
+            username: req.session.username,
+            id: req.session.userId
+        }).then(function(user) {
+            console.log(user);
+            let filterObj = {
+                gender: user.gender === "male" ? "female" : "male",
+                prolife: user.prolife == true ? true : false,
+            }
+            // switch (req.params.filter) {
+            //     case "ideal": 
+            //         filterObj.politics = user.politics,
+            //         filterObj.religion = user.religion,
+            //         filterObj.babies = user.babies,
+            //         filterObj.state = user.state
+            //         break;
+            //     default: 
+            //     break;
+            // }
+
+            console.log(filterObj);
+
+            db.User.find(filterObj).then(function(matches) {
+                console.log(matches);
+                let results = [];
+                
+                matches.forEach(match => {
+                    let relevantInfo = {
+                        username: match.username,
+                        name: match.name,
+                        age: match.age,
+                        religion: match.religion,
+                        politics: match.politics,
+                        role: match.role,
+                        image: match.image,
+                        height: match.height,
+                        weight: match.weight,
+                        babies: match.babies,
+                        race: match.race,
+                        outgoing: match.outgoing,
+                        state: match.state,
+                        city: match.city
+                    }
+
+                    let similarities = 0;
+                    
+                    let criteria = [
+                        "race",
+                        "age",
+                        "religion",
+                        "outgoing",
+                        "politics",
+                        "role",
+                        "babies",
+                        "state"
+                    ];
+
+                    console.log(Math.abs(user.role - match.role));
+
+                    criteria.forEach(item => {
+                        if (item === "role" && Math.abs(user.role - match.role) >= 3) {
+                            similarities++;
+                        }
+                        
+                        else if (item === "age") {
+                            if (Math.abs(user.age - match.age) <= 3) {
+                                similarities++;
+                            }
+                        }
+            
+                        else if (item === "babies") {
+                            if (Math.abs(user.babies - match.babies) <= 2) {
+                                similarities++;
+                            }
+                        }
+            
+                        else if (user[item] === match[item]) {
+                            similarities++;
+                        }
+                    });
+
+                    if (req.params.filter === "ideal" && similarities === criteria.length) {
+                        results.push(relevantInfo);
+                    }
+
+                    else if (req.params.filter === "secondary" && similarities <= 5 && similarities >= 3) {
+                        results.push(relevantInfo);
+                    }
+
+                });
+              
+                res.json(results);
+            }).catch(err => res.json(err));
+        })
     });
 
     app.get("/api/user/:username", function(req, res) {
