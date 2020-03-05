@@ -1,49 +1,65 @@
 <link rel="stylesheet" href="/css/dash.css">
 
  <aside>
-    {{#if session.userId}}
-    <h2>{{session.username}}</h2>
-    <div id="user-info"></div>
-    <a class = "navbuttons" href="/bio/{{session.username}}">Settings</a>
-    {{else}}
-    <h2>User</h2>
-    {{/if}}
+    <h2>Filters</h2>
+    <hr>
+    <input type="radio" name="presets" id="ideal">
+    <label for="ideal" class="radio-button">Ideal</label>
 
-    <input type="radio" name="filters" id="ideal" value = "ideal" checked = "true">
-    <label class = "radio-button" for="ideal">Ideal</label>
+    <input type="radio" name="presets" id="secondary">
+    <label for="secondary" class="radio-button">Great</label>
 
-    <input type="radio" name="filters" id="secondary" value = "secondary">
-    <label class = "radio-button" for="secondary">Secondary</label>
-    
-    <input type="radio" name="filters" id="tertiary" value = "tertiary">
-    <label class = "radio-button" for="tertiary">Tertiary</label>
+    <input type="radio" name="presets" id="basic">
+    <label for="basic" class="radio-button">Basic</label>
 
+    <input type="radio" name="presets" id="custom">
+    <label for="custom" class="radio-button">Custom</label>
+    <hr>
+    <div id="filters">
+        <input type="checkbox" name="filters" id="religion">
+        <label for="religion" class="check-button">Religion</label>
+        
+        <input type="checkbox" name="filters" id="politics">
+        <label for="politics" class="check-button">Politics</label>
+
+        <input type="checkbox" name="filters" id="location">
+        <label for="location" class="check-button">Location</label>
+
+        <input type="checkbox" name="filters" id="race">
+        <label for="race" class="check-button">Race</label>
+
+        <input type="checkbox" name="filters" id="role">
+        <label for="role" class="check-button">Role</label>
+
+        <input type="checkbox" name="filters" id="outgoing">
+        <label for="outgoing" class="check-button">Outgoing</label>
+
+        <input type="checkbox" name="filters" id="babies">
+        <label for="babies" class="check-button">Desired Babies #</label>
+
+        <input type="checkbox" name="filters" id="height">
+        <label for="height" class="check-button">Height</label>
+
+        <input type="checkbox" name="filters" id="weight">
+        <label for="weight" class="check-button">Weight</label>
+
+        <input type="checkbox" name="filters" id="sexy">
+        <label for="sexy" class="check-button">Visual Feature</label>
+
+        <input type="checkbox" name="filters" id="confrontation">
+        <label for="confrontation" class="check-button">Confrontation</label>
+    </div>    
+
+    <h2>Query</h2>
 
 </aside>
 
-<h2>Ideal Matches!</h2>
-<section id = "ideal-matches">
-
-</section>
+<h2>Matches</h2>
 <hr>
 
-<h2>Secondary Matches</h2>
-<section id = "secondary-matches">
-    
-</section>
-<hr>
+<section id="matches">
+ 
 
-<h2>Custom Matches</h2>
-<select id="custom-match">
-    <option disabled selected>Custom Criterion</option>
-    <option value="religion">Religion</option>
-    <option value="role">Gender Role</option>
-    <option value="babies"># of Babies</option>
-
-</select>
-
-<section id = "custom-matches">
-    
 </section>
 
 <script src="/js/dashboard.js"></script>

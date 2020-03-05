@@ -6,7 +6,99 @@ $(document).ready(function() {
         ideal: [],
         personality: [],
         basic: [] 
-    }
+    };
+
+    let filterFields = [
+        "religion",
+        "politics",
+        "role",
+        "height",
+        "weight",
+        "babies",
+        "race",
+        "outgoing",
+        "location",
+        "sexy",
+        "confrontation"
+    ]
+
+    let filter = ["religion", "politics", "location"];
+
+    $("input[name=presets]").on("change", function() {
+        filter = [];
+        switch ($(this).attr("id")) {
+            case "custom":
+                $("#filters").css("display", "block");
+                break;
+            case "ideal":
+                if ($("#filters").css("display") === "block") {
+                    $("input[name=filters]").each(function() {
+                        $(this).attr("checked", "true");
+                        filter.push($(this).attr("id"));
+                    })
+                }
+
+                else {
+                    filter = filterFields;
+                }
+                break;
+            case "secondary":
+                if ($("#filters").css("display") === "block") {
+                    $("input[name=filters]").each(function() {
+                        let value = $(this).attr("id");
+                        filter.push(value);
+                        if (value === "religion" || value === "politics" || value === "location" || value === "race" || value === "role" || value === "babies" || value === "confrontation" || value === "sexy") {
+                            $(this).attr("checked", "true");
+                        }
+                        else {
+                            $(this).attr("checked", false);
+                        }
+                    })
+                }
+                else {
+                    filter = ["religion", "politics", "location", "race", "role", "babies", "confrontation", "sexy"];
+                }
+                break;
+                case "basic":
+                    if ($("#filters").css("display") === "block") {
+                        $("input[name=filters]").each(function() {
+                            let value = $(this).attr("id");
+                            filter.push(value);
+                            if (value === "religion" || value === "politics" || value === "location") {
+                                $(this).attr("checked", "true");
+                            }
+                            else {
+                                $(this).attr("checked", false);
+                            }
+                        })
+                    }
+                    else {
+                        filter = ["religion", "politics", "location"];
+                    }
+                    break;
+                default:
+                    break;
+            
+        }
+        
+        if ($(this).attr("id") !== "custom") {
+            matchmaker();
+        }
+
+        console.log($(this).attr("id"));
+    });
+
+    $("input[name=filters]").on("change", function(){
+        filter = [];
+        $("input[name=filters]").each(function(index) {
+            if (document.querySelector("#" + $(this).attr("id")).checked) {
+                filter.push($(this).attr("id"));
+            }
+        });
+        console.log(filter);
+
+        matchmaker();
+    })
 
     $.getJSON("/api/currentUser/dash", function(data) {
         user = data;
@@ -20,13 +112,8 @@ $(document).ready(function() {
             `
         );
 
-        $.getJSON("/api/matchmaker/ideal", function(results) {
-            console.log(results);
-    
-            results.forEach(item => {
-                matchmaker(item);  
-            });
-        });
+        matchmaker();
+
     });
 
     $("section").on("click", ".result", function() {
@@ -50,7 +137,7 @@ $(document).ready(function() {
         $("#messages").empty();
     });
 
-    $("#custom-match").on("change", function() {
+    $("#custom-match").on("value", function() {
         $.ajax({
             method: "POST",
             url: "/api/users/" + $(this).val(),
@@ -65,18 +152,6 @@ $(document).ready(function() {
             }
         })
     });
-
-    $("aside input[type=radio]").on("input", function(){
-        console.log($(this).val());
-        $.getJSON("/api/matchmaker/" + $(this).val(), function(data) {
-            $("section").each(function(){
-                $(this).empty();
-            })
-            data.forEach(item => {
-                matchmaker(item);
-            })
-        })
-    })
 
     function refreshMessages(match) {
         console.log(match);
@@ -115,23 +190,27 @@ $(document).ready(function() {
     }
 
     function capitalize(string) {
-        return string.slice(0)[0].toUpperCase() + string.slice(1);
+        if (string !== undefined && string.length > 0) {
+            return string.slice(0)[0].toUpperCase() + string.slice(1);
+        }
+        else return string;
+
     }
 
-    function matchmaker(match) {
-        let criteria = [
-            "race",
-            "age",
-            "religion",
-            "outgoing",
-            "politics",
-            "role",
-            "babies",
-            "state"
-        ];
-        
-        let similarities = 0;
 
+
+    function matchmaker() {
+        $("#matches").empty();
+
+        $.post("/api/matchmaker/", {criteria: filter}, function(results) {
+            results.forEach(match => {
+                populate(match);
+            })
+        })
+    }
+
+    function populate(match) {
+        
         let roleDesires = {
             0: 4,
             1: 3,
@@ -150,40 +229,7 @@ $(document).ready(function() {
 
         let religionDesc;
         let babiesDesc;
-
-        criteria.forEach(item => {
-            if (item === "role" && user.role === roleDesires[match.role]) {
-                similarities++;
-            }
-            
-            else if (item === "age") {
-                if (Math.abs(user.age - match.age) <= 3) {
-                    similarities++;
-                }
-            }
-
-            else if (item === "babies") {
-                if (Math.abs(user.babies - match.babies) <= 2) {
-                    similarities++;
-                }
-            }
-
-            else if (user[item] === match[item]) {
-                similarities++;
-            }
-        
-        });
-
-        console.log(similarities);
-
-        if (similarities === criteria.length) {
-            target = "#ideal-matches";
-        }
-
-        else {
-            target = "#secondary-matches";
-        }
-        
+                
         switch(match.babies) {
             case 0:
                 babiesDesc = "No children."
@@ -222,7 +268,7 @@ $(document).ready(function() {
                 break;
         }
 
-        $(target).append(
+        $("#matches").append(
             `
             <a href = "/users/${match.username}" class = "result" data-name = "${match.username}">
                 <div class = "inner">
@@ -245,10 +291,6 @@ $(document).ready(function() {
             </a>
             `
         );  
-    }
-
-    function populate(destination, element, string) {
-        $(destination).append(`<${element}>${string}</${element}>`)
     }
 
 })

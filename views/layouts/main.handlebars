@@ -13,9 +13,14 @@
 </head>
 <body>
     <nav>
-        <a href ="/">YAR</a>
+        <a id = "logo" href ="/">YAR</a>
         {{#if session.userId}}
-        <button id = "logout">Log Out</button>
+        <div id="navbuttons">
+            <button class = "centered-y" id = "favorites">★</button>
+            <a class = "centered-y" href = "/bio/settings">User</a>
+            <button class = "centered-y" id = "logout">Log Out</button>
+        </div>
+        
         {{/if}}
     </nav>
     <main>

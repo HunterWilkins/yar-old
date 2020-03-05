@@ -83,34 +83,25 @@ module.exports = function(app) {
         }).catch(err => res.json(err));
     });
 
-    app.get("/api/matchmaker/:filter", function(req, res) {
+    app.post("/api/matchmaker", function(req, res) {
+        let criteria = req.body.criteria;
+        console.log(criteria)
+
         db.User.findOne({
             username: req.session.username,
             id: req.session.userId
         }).then(function(user) {
-            console.log(user);
             let filterObj = {
                 gender: user.gender === "male" ? "female" : "male",
                 prolife: user.prolife == true ? true : false,
             }
-            // switch (req.params.filter) {
-            //     case "ideal": 
-            //         filterObj.politics = user.politics,
-            //         filterObj.religion = user.religion,
-            //         filterObj.babies = user.babies,
-            //         filterObj.state = user.state
-            //         break;
-            //     default: 
-            //     break;
-            // }
-
-            console.log(filterObj);
 
             db.User.find(filterObj).then(function(matches) {
-                console.log(matches);
+                
                 let results = [];
                 
                 matches.forEach(match => {
+                    console.log(match.name);
                     let relevantInfo = {
                         username: match.username,
                         name: match.name,
@@ -125,57 +116,91 @@ module.exports = function(app) {
                         race: match.race,
                         outgoing: match.outgoing,
                         state: match.state,
-                        city: match.city
+                        city: match.city,
+                        sexy: match.sexy,
+                        attraction: match.attraction
                     }
 
                     let similarities = 0;
-                    
-                    let criteria = [
-                        "race",
-                        "age",
-                        "religion",
-                        "outgoing",
-                        "politics",
-                        "role",
-                        "babies",
-                        "state"
-                    ];
-
-                    console.log(Math.abs(user.role - match.role));
 
                     criteria.forEach(item => {
-                        if (item === "role" && Math.abs(user.role - match.role) >= 3) {
-                            similarities++;
-                        }
-                        
-                        else if (item === "age") {
-                            if (Math.abs(user.age - match.age) <= 3) {
-                                similarities++;
-                            }
-                        }
-            
-                        else if (item === "babies") {
-                            if (Math.abs(user.babies - match.babies) <= 2) {
-                                similarities++;
-                            }
-                        }
-            
-                        else if (user[item] === match[item]) {
-                            similarities++;
+                        switch(item) {
+                            case "role":
+                                if (Math.abs(user.role - match.role) >= 3) {
+                                    similarities++;
+                                    console.log("Match: " + item);
+
+                                }
+                                break;
+                            case "age":
+                                if (Math.abs(user.age - match.age) <= 3) {
+                                    similarities++;
+                                    console.log("Match: " + item);
+                                }
+                                break;
+                            case "babies":
+                                if (Math.abs(user.babies - match.babies) <= 3) {
+                                    similarities++;
+                                    console.log("Match: " + item);
+                                }
+                                break;
+                            case "location":
+                                if (user.state === match.state && user.city === match.city) {
+                                    similarities++;
+                                    console.log("Match: " + item);
+                                }
+                                break;
+                            case "sexy":
+                                if (user.attraction === match.sexy) {
+                                    similarities++;
+                                    console.log("Match: " + item);
+
+                                }
+                                break;
+                            case "height":
+                                let userInches = (parseFloat(user.height.split("'")[0]) * 12) + parseFloat(user.height.split("\'")[1].split("\"")[0]);
+                                let matchInches = (parseFloat(match.height.split("'")[0]) * 12) + parseFloat(match.height.split("\'")[1].split("\"")[0]);
+                                console.log(userInches + " / " + matchInches);
+
+                                if (user.gender === "male") {
+                                    if (userInches > matchInches) {
+                                        similarities++;
+                                        console.log("Match: " + item);
+                                    }
+                                }
+
+                                else {
+                                   if (userInches < matchInches) {
+                                       similarities++;
+                                       console.log("Match: " + item);
+                                   }
+                                }
+                                break;
+                            case "weight":
+                                let height = (match.height.split("'")[0] * 12) + parseInt(match.height.split("'")[1].split("\"")[0]);
+                                let bmi = 703 * match.weight / (height * height);
+                                console.log("Match: " + item);
+                                if (bmi > 18.5 && bmi < 24.9) {
+                                    similarities++;
+                                }
+
+                                break;
+                            default:
+                                if (user[item] === match[item]) {
+                                    similarities++;
+                                    console.log("Match: " + item);
+                                }
+                                break;
                         }
                     });
-
-                    if (req.params.filter === "ideal" && similarities === criteria.length) {
+                    console.log(similarities + "/" + criteria.length);
+                    if (similarities === criteria.length) {
                         results.push(relevantInfo);
                     }
-
-                    else if (req.params.filter === "secondary" && similarities <= 5 && similarities >= 3) {
-                        results.push(relevantInfo);
-                    }
-
                 });
               
                 res.json(results);
+                console.log("=/=/=/=/=/=/=/=/=/=/=/=/=/");
             }).catch(err => res.json(err));
         })
     });
@@ -223,18 +248,6 @@ module.exports = function(app) {
         }).catch(err => res.json(err));
     });
 
-    app.get("/api/matchmaker", function(req, res) {
-        db.User.findOne({
-            username: req.session.username
-        }).then(function(user) {
-            db.User.find({
-                gender: user.gender === "male" ? "female" : "male",
-                prolife: user.prolife === true ? true : false
-            }).then(function(matches) {
-
-            })
-        })
-    })
 
     app.post("/api/signup", function(req, res) {
         const alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];

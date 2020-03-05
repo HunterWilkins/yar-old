@@ -318,7 +318,31 @@ $(document).ready(function(){
         $("main div input, select").each(function(index) {
             if ($(this).attr("type") === "radio") {
                 if ($(this).is(":checked")) {
-                    userInfo[$(this).attr("name")] = $(this).val();
+                    if ($(this).attr("name") === "sexy") {
+                        switch($(this).val()){
+                            case "A V-Neck":
+                                userInfo.sexy = "Chest";
+                                break;
+                            case "A Tank Top":
+                                userInfo.sexy = "Arms";
+                                break;
+                            case "A Crop Top":
+                                userInfo.sexy = "Belly";
+                                break;
+                            case "Tight/Short Pants":
+                                userInfo.sexy = "Buttocks";
+                                break;
+                            case "A Flannel Overshirt w/ White Undershirt":
+                                userInfo.sexy = "Face";
+                                break;
+                            case "Nothing (not recommended)":
+                                userInfo.sexy = "All of the Above";
+                                break;
+                        }
+                    }
+                    else {
+                        userInfo[$(this).attr("name")] = $(this).val();
+                    }
                 }
             }
 
