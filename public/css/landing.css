@@ -21,7 +21,7 @@ section {
     width: 100%;
 }
 
-#logo {
+#yar-logo {
     padding: 25px;
     background: var(--layer3);
     text-align:center;
@@ -30,7 +30,7 @@ section {
     box-shadow: 0 5px 5px black;
 }
 
-#logo h1 {
+#yar-logo h1 {
     font-family: serif;
     font-size: 50px;
     color: var(--highlight)

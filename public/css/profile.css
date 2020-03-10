@@ -199,7 +199,6 @@ section p {
     display: none;
 }
 
-
 #messaging {
     position: absolute;
     left: 520px;
@@ -229,6 +228,7 @@ section p {
 }
 
 #messaging article {
+    position: relative;
     height: 200px;
     overflow-y: auto;
     width: 100%;
@@ -254,9 +254,88 @@ section p {
     white-space: pre-wrap;
     word-wrap: break-word;
     line-height: 1.2em;
+    display:block;
+}
+
+.user-other {
+    background: var(--layer1);
+    text-align:right;
 }
 
 .user-me {
     background: var(--layer2);
-    text-align: right;
+    text-align: left;
+}
+
+@media only screen and (max-width: 800px) {
+    #info {
+        position: relative;
+        display: block;
+        bottom: initial;
+        top: initial;
+        width: 95%;
+        margin: 0 auto;
+        /* height: 200px; */
+        padding-bottom: 5px;
+    }
+
+    section {
+        position: relative;
+        max-height: initial;
+    }
+
+    #ratings {
+        position: relative;
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        left: initial;
+        right: initial;
+        text-align:center;
+        height: initial;
+    }
+
+
+    #stars, #flags {
+        position: relative;
+        display: block;
+        margin: 0 auto;
+        width: 90%;
+        max-height: 200px;
+        text-align:left;
+        overflow-y: auto;
+    }
+
+    #flags {
+        margin-bottom: 1em; 
+    }
+
+    #messaging {
+        position: relative;
+        left: initial;
+        top: initial;
+        bottom: initial;
+        right: initial;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    #messaging textarea {
+        position: relative;
+        transform: translateX(-50%);
+        left: 50%;
+        bottom: initial;
+   
+        height: 80px;
+    }
+    
+    #messaging button {
+        position: relative;
+        bottom: initial;
+    }
+
+    #messaging article {
+        height: 400px;
+    }
+
 }

@@ -17,7 +17,8 @@ $(document).ready(function() {
         "babies",
         "race",
         "outgoing",
-        "location",
+        "state",
+        "city",
         "sexy",
         "confrontation"
     ]
@@ -35,7 +36,7 @@ $(document).ready(function() {
                     $("input[name=filters]").each(function() {
                         $(this).attr("checked", "true");
                         filter.push($(this).attr("id"));
-                    })
+                    });
                 }
 
                 else {
@@ -47,7 +48,7 @@ $(document).ready(function() {
                     $("input[name=filters]").each(function() {
                         let value = $(this).attr("id");
                         filter.push(value);
-                        if (value === "religion" || value === "politics" || value === "location" || value === "race" || value === "role" || value === "babies" || value === "confrontation" || value === "sexy") {
+                        if (value === "religion" || value === "politics" || value === "state" || value === "race" || value === "role" || value === "babies" || value === "confrontation" || value === "sexy") {
                             $(this).attr("checked", "true");
                         }
                         else {
@@ -56,7 +57,7 @@ $(document).ready(function() {
                     })
                 }
                 else {
-                    filter = ["religion", "politics", "location", "race", "role", "babies", "confrontation", "sexy"];
+                    filter = ["religion", "politics", "state", "race", "role", "babies", "confrontation", "sexy"];
                 }
                 break;
                 case "basic":
@@ -73,7 +74,7 @@ $(document).ready(function() {
                         })
                     }
                     else {
-                        filter = ["religion", "politics", "location"];
+                        filter = ["religion", "politics", "state"];
                     }
                     break;
                 default:
@@ -111,6 +112,15 @@ $(document).ready(function() {
             <p>${user.politics === "right" || "left" ? capitalize(user.politics) + " Wing": "Moderate"}</p>
             `
         );
+
+        try {
+            data.favorites.forEach(item => {
+                $("#favorites").append(`<option value = ${item}>${item}</option>`)
+            });
+        }
+        catch {
+            console.log("No Favorites Found");
+        }
 
         matchmaker();
 
@@ -152,6 +162,8 @@ $(document).ready(function() {
             }
         })
     });
+
+   
 
     function refreshMessages(match) {
         console.log(match);

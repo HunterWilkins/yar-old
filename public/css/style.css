@@ -14,7 +14,6 @@
     --highlight: rgb(255, 234, 113);
 }
 
-
 ::-webkit-scrollbar {
     width: 5px;
 }
@@ -48,7 +47,6 @@ hr {
     border:none;
     border-bottom: 2px solid var(--layer4);
 }
-
 
 h1 {
     font-size: 30px;

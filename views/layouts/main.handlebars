@@ -16,7 +16,10 @@
         <a id = "logo" href ="/">YAR</a>
         {{#if session.userId}}
         <div id="navbuttons">
-            <button class = "centered-y" id = "favorites">★</button>
+            <select class = "centered-y" id = "favorites">
+                <option disabled selected>Favorites</option>
+            </select>
+            <a href="/messages">Messages</a>
             <a class = "centered-y" href = "/bio/settings">User</a>
             <button class = "centered-y" id = "logout">Log Out</button>
         </div>

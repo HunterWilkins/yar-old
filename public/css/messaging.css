@@ -1,0 +1,34 @@
+main {
+    padding: 5px;
+}
+
+.message {
+    position: relative;
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    background: var(--layer0);
+    padding: 15px;
+    font-size: 14px;
+}
+
+.message hr {
+    margin: 2px 0 4px 0;
+}
+
+.message em {
+    display: block;
+    opacity: .5;
+    margin-bottom: 5px;
+}
+
+.contact {
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.last-message {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

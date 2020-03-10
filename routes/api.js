@@ -23,6 +23,7 @@ module.exports = function(app) {
                 priority: dbUser.priority,
                 priorities: dbUser.priorities,
                 attraction: dbUser.attraction,
+                favorites : dbUser.favorites,
                 sexy: dbUser.sexy,
                 image: dbUser.image,
                 height : dbUser.height,
@@ -248,6 +249,33 @@ module.exports = function(app) {
         }).catch(err => res.json(err));
     });
 
+    app.get("/api/myMessages", function(req, res) {
+        let messages = {
+            authored: [
+
+            ],
+
+            received: [
+
+            ]
+        }
+
+        db.Chat.find({$or:[
+            {author: req.session.username},
+            {recipient: req.session.username}
+        ]}).then(function(dbChats) {
+            dbChats.forEach(chat => {
+                if (chat.author === req.session.username) {
+                    messages.authored.push(chat);
+                }
+                else {
+                    messages.received.push(chat);
+                }
+            })
+            console.log(dbChats);
+            res.json(messages);
+        }).catch(err => res.json(err));
+    })
 
     app.post("/api/signup", function(req, res) {
         const alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];

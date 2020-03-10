@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-    let user = "Blomchoms";
-
     $("#signup").on("click", function(){
         $.ajax({
             type: "POST",
@@ -44,4 +42,9 @@ $(document).ready(function(){
             }
         });
     });
+
+    $("#favorites").on("change", function() {
+        window.location.replace("/users/" + $(this).val());
+    });
+
 });

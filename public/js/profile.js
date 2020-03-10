@@ -323,15 +323,15 @@ $(document).ready(function() {
                                 break;
                             case "sexy":
                                 let sexyChart = {
-                                    "A V-Neck": "Chest",
-                                    "A Tank Top": "Arms",
-                                    "A Crop Top": "Belly",
-                                    "Tight/Short Pants": "Buttocks",
-                                    "A Flannel Overshirt w/ White Undershirt" : "Face",
-                                    "Nothing (not recommended)": "All of the Above"
+                                    "Chest":"A V-Neck", 
+                                    "Arms":"A Tank Top",
+                                    "Belly" : "A Crop Top",
+                                    "Buttocks": "Tight/Short Pants",
+                                    "Face": "A Flannel Overshirt w/ White Undershirt",
+                                    "All of the Above": "Nothing"
                                 }
 
-                                specificText = "If I wanted to show off my goooooods, I'd wear " + (data[x][y] !== "Nothing (not recommended)" ? data[x][y].toLowerCase() : " absolutely nothing. ;)");
+                                specificText = "If I wanted to show off my goooooods, I'd wear " + (data[x][y] !== "Nothing" ? sexyChart[data[x][y]].toLowerCase() + ".": " absolutely nothing. ;)");
                                 $("#" + x).append(
                                     `
                                     <p ${sexyChart[data[x][y]] === user.attraction ? "class = 'matched'": ""}>${specificText}</p>
@@ -398,13 +398,25 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
                 data.messages.forEach(item => {
-                    $("#messaging article").append(
-                        `
-                        <p class = ${item.p === user.username ? "user-me" : "user-other"}><strong>${item.p}</strong></p>
-                        <p class = ${item.p === user.username ? "user-me" : "user-other"}>${item.text}</p>
-                        <br>
-                        `
-                    )
+                    if (item.p === user.username) {
+                        $("#messaging article").append(
+                            `
+                            <p class = "user-me"><strong>${item.p}</strong></p>
+                            <p class = "user-me">${item.text}</p>
+                            <br>
+                            `
+                        );
+                    }
+
+                    else {
+                        $("#messaging article").append(
+                            `
+                            <a class = "user-other" href = "/users/${item.p}">${item.p}</a>
+                            <a class = "user-other" href = "/users/${item.p}">${item.text}</a>
+                            <br>
+                            `
+                        )
+                    }
                 },)
 
                 let scrollHeight = document.querySelector("#messaging article").scrollHeight;

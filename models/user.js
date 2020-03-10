@@ -99,6 +99,10 @@ let UserSchema = new Schema ({
     messages: {
         type: Array
     },
+    
+    favorites : {
+        type: Array
+    },
 
     flags: {
         type: Array

@@ -40,6 +40,10 @@ module.exports = function(app) {
 
     app.get("/settings", function(req, res) {
         res.render(req.session.userId ? "settings" : "landing");
+    });
+
+    app.get("/messages", function(req,res) {
+        res.render(req.session.userId ? "messaging" : "landing");
     })
 
     app.get("*", function(req, res) {
